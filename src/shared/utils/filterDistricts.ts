@@ -10,28 +10,51 @@ function removeHyphen(district: string): string {
 /**
  * 검색어가 지역명의 세그먼트(하이픈으로 구분된 부분)의 시작 부분과 일치하는지 확인합니다.
  * 예: "대구" 검색 시 "대구광역시", "대구광역시-중구"는 일치하지만 "부산광역시-해운대구"는 일치하지 않음
+ * "대구광역시 동구" 검색 시 "대구광역시-동구"는 일치
  */
 function matchesSearchTerm(district: string, searchTerm: string): boolean {
   const normalizedSearchTerm = searchTerm.trim().toLowerCase();
   if (!normalizedSearchTerm) return false;
 
   // 하이픈으로 구분된 세그먼트들로 분리
-  const segments = district.split("-");
-  
-  // 각 세그먼트의 시작 부분이 검색어와 일치하는지 확인
-  for (const segment of segments) {
-    const normalizedSegment = segment.toLowerCase();
-    // 세그먼트가 검색어로 시작하는지 확인
-    if (normalizedSegment.startsWith(normalizedSearchTerm)) {
-      return true;
+  const segments = district.split("-").map((s) => s.toLowerCase());
+
+  // 검색어를 공백으로 분리 (여러 단어 검색 지원)
+  const searchParts = normalizedSearchTerm
+    .split(/\s+/)
+    .filter((part) => part.length > 0);
+
+  // 검색어가 하나인 경우: 기존 로직 (각 세그먼트의 시작 부분 확인)
+  if (searchParts.length === 1) {
+    const searchPart = searchParts[0];
+    for (const segment of segments) {
+      if (segment.startsWith(searchPart) || segment === searchPart) {
+        return true;
+      }
     }
-    // 또는 세그먼트 전체가 검색어와 일치하는지 확인 (예: "대구" = "대구")
-    if (normalizedSegment === normalizedSearchTerm) {
-      return true;
+    return false;
+  }
+
+  // 검색어가 여러 개인 경우: 순서대로 세그먼트와 매칭
+  // 예: "대구광역시 동구" -> ["대구광역시", "동구"]
+  // "대구광역시-동구" -> ["대구광역시", "동구"]와 매칭
+  let searchIndex = 0;
+  for (
+    let i = 0;
+    i < segments.length && searchIndex < searchParts.length;
+    i++
+  ) {
+    const segment = segments[i];
+    const searchPart = searchParts[searchIndex];
+
+    // 세그먼트가 검색어 부분으로 시작하면 다음 검색어로 이동
+    if (segment.startsWith(searchPart)) {
+      searchIndex++;
     }
   }
-  
-  return false;
+
+  // 모든 검색어 부분이 매칭되었는지 확인
+  return searchIndex === searchParts.length;
 }
 
 /**
@@ -53,4 +76,3 @@ export function filterDistricts(
     .map((district) => removeHyphen(district))
     .slice(0, limit);
 }
-
