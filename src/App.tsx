@@ -1,10 +1,15 @@
 import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
 import type { CurrentWeatherResponse } from "./shared/types/CurrentWeatherResponseType";
-import { WeatherCard, WeatherCardSkeleton } from "./shared/ui";
+import { Button, WeatherCard, WeatherCardSkeleton } from "./shared/ui";
 
 function App() {
-  const { position, isLocationLoading, locationError } = useGetLocation();
+  const {
+    position,
+    isLocationLoading,
+    locationError,
+    refetch: refetchLocation,
+  } = useGetLocation();
   const { latitude: lat, longitude: lon } = position || {};
   const {
     data,
@@ -26,7 +31,14 @@ function App() {
     <main className="min-h-[100dvh] bg-gray-50">
       <h1 className="sr-only">Weather App Main Page</h1>
       <div className="px-4 py-8">
-        {(isLocationLoading || isWeatherLoading) && !data && (
+        <Button
+          onClick={refetchLocation}
+          disabled={isLocationLoading}
+          className="mb-4"
+        >
+          내 위치 새로고침
+        </Button>
+        {(isLocationLoading || (isWeatherLoading && !data)) && (
           <WeatherCardSkeleton />
         )}
 
@@ -34,7 +46,7 @@ function App() {
           <div className="mt-4 text-red-600">오류: {locationError}</div>
         )}
 
-        {data && (
+        {data && !isLocationLoading && (
           <WeatherCard data={data} isCurrentWeather={isWeatherSuccess} />
         )}
       </div>

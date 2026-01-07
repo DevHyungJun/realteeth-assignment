@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface LocationPosition {
   latitude: number;
@@ -10,12 +10,15 @@ const useGetLocation = () => {
   const [isLocationLoading, setIsLocationLoading] = useState(true);
   const [locationError, setLocationError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const fetchLocation = useCallback(() => {
     if (!navigator.geolocation) {
       setLocationError("Geolocation이 지원되지 않는 브라우저입니다.");
       setIsLocationLoading(false);
       return;
     }
+
+    setIsLocationLoading(true);
+    setLocationError(null);
 
     navigator.geolocation.getCurrentPosition(
       (geoPosition) => {
@@ -41,7 +44,11 @@ const useGetLocation = () => {
     );
   }, []);
 
-  return { position, isLocationLoading, locationError };
+  useEffect(() => {
+    fetchLocation();
+  }, [fetchLocation]);
+
+  return { position, isLocationLoading, locationError, refetch: fetchLocation };
 };
 
 export default useGetLocation;
