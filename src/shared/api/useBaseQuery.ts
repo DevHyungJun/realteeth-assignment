@@ -8,6 +8,7 @@ import type {
 } from "@tanstack/react-query";
 import type { AxiosRequestConfig } from "axios";
 import baseAxios from "./baseAxios";
+import { WEATHER_CACHE_TIME } from "../config/cacheTimes";
 
 /**
  * React Query를 사용한 기본 API 쿼리 훅
@@ -102,7 +103,7 @@ const useBaseQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(
     },
     retry: 1,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60,
+    staleTime: WEATHER_CACHE_TIME,
     ...queryOptions,
   });
 };

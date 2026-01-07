@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import vworldAxios from "../api/vworldAxios";
 import type { VWorldGeocoderResponse } from "../types/vworldTypes";
+import { GEOCODE_CACHE_TIME } from "../config/cacheTimes";
 
 type GeocodeResult = {
   lat: number;
@@ -62,6 +63,6 @@ export function useGeocode(address: string | null) {
     enabled: !!address,
     retry: 1,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 60, // 1시간
+    staleTime: GEOCODE_CACHE_TIME,
   });
 }

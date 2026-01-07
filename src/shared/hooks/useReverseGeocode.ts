@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import vworldAxios from "../api/vworldAxios";
 import type { VWorldReverseGeocoderResponse } from "../types/vworldTypes";
+import { REVERSE_GEOCODE_CACHE_TIME } from "../config/cacheTimes";
 
 type ReverseGeocodeResult = string | null;
 
@@ -128,6 +129,6 @@ export function useReverseGeocode(
     enabled: !!lat && !!lon,
     retry: 1,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 60, // 1시간
+    staleTime: REVERSE_GEOCODE_CACHE_TIME,
   });
 }

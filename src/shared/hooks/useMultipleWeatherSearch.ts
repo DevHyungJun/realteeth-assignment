@@ -4,6 +4,7 @@ import { filterDistricts } from "../utils/filterDistricts";
 import vworldAxios from "../api/vworldAxios";
 import baseAxios from "../api/baseAxios";
 import type { VWorldGeocoderResponse } from "../types/vworldTypes";
+import { WEATHER_CACHE_TIME } from "../config/cacheTimes";
 
 export type WeatherSearchItem = {
   district: string;
@@ -114,7 +115,7 @@ export function useMultipleWeatherSearch(searchTerm: string | null) {
       enabled: !!searchTerm && matchedDistricts.length > 0,
       retry: 1,
       refetchOnWindowFocus: false,
-      staleTime: 1000 * 60 * 60, // 1시간
+      staleTime: WEATHER_CACHE_TIME, // 날씨 데이터 캐싱 시간 사용
     })),
   });
 
