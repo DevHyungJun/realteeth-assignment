@@ -3,7 +3,7 @@ import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
 import type { CurrentWeatherResponse } from "./shared/types/CurrentWeatherResponseType";
 import { Button, WeatherCard, WeatherCardSkeleton } from "./shared/ui";
-import WeatherDetailPage from "./pages/WeatherDetailPage";
+import WeatherDetailPage from "./pages/WeatherDetailPage/WeatherDetailPage";
 
 function HomePage() {
   const {
