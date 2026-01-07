@@ -36,7 +36,6 @@ const WeatherDetailPage = () => {
 
   const weatherIcon = weather[0]?.icon;
   const weatherDescription = weather[0]?.description || "";
-  const weatherMain = weather[0]?.main || "";
 
   const formatTime = (timestamp: number, timezoneOffset: number) => {
     const date = new Date((timestamp + timezoneOffset) * 1000);
@@ -57,16 +56,7 @@ const WeatherDetailPage = () => {
   };
 
   const getWindDirection = (deg: number) => {
-    const directions = [
-      "북",
-      "북동",
-      "동",
-      "남동",
-      "남",
-      "남서",
-      "서",
-      "북서",
-    ];
+    const directions = ["북", "북동", "동", "남동", "남", "남서", "서", "북서"];
     return directions[Math.round(deg / 45) % 8];
   };
 
@@ -179,9 +169,7 @@ const WeatherDetailPage = () => {
           {/* 구름 정보 */}
           <div className="bg-gray-50 rounded-lg p-4 mb-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-3">구름</h2>
-            <p className="text-lg font-semibold text-gray-800">
-              {clouds.all}%
-            </p>
+            <p className="text-lg font-semibold text-gray-800">{clouds.all}%</p>
           </div>
 
           {/* 강수량 정보 */}
@@ -291,4 +279,3 @@ const WeatherDetailPage = () => {
 };
 
 export default WeatherDetailPage;
-

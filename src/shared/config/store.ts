@@ -1,15 +1,16 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-// Example store - customize as needed
-interface AppState {
-  count: number;
-  increment: () => void;
-  decrement: () => void;
+interface LocationPosition {
+  latitude: number;
+  longitude: number;
 }
 
-export const useAppStore = create<AppState>((set) => ({
-  count: 0,
-  increment: () => set((state) => ({ count: state.count + 1 })),
-  decrement: () => set((state) => ({ count: state.count - 1 })),
-}));
+interface CurrentLocationStore {
+  cachedPosition: LocationPosition | null;
+  setCachedPosition: (position: LocationPosition | null) => void;
+}
 
+export const useCurrentLocationStore = create<CurrentLocationStore>((set) => ({
+  cachedPosition: null,
+  setCachedPosition: (position) => set({ cachedPosition: position }),
+}));
