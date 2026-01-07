@@ -97,14 +97,16 @@ function HomePage() {
         </div>
 
         {!searchAddress && (
-          <Button
-            onClick={refetchLocation}
-            disabled={isLocationLoading}
-            className="mb-4 flex items-center gap-2"
-          >
-            <LocationIcon className="h-5 w-5 text-green-500" />
-            위치 새로고침
-          </Button>
+          <div className="w-full flex justify-end">
+            <Button
+              onClick={refetchLocation}
+              disabled={isLocationLoading}
+              className="mb-4 flex items-center gap-2 text-sm"
+            >
+              <LocationIcon className="h-4 w-4 text-green-500" />
+              새로고침
+            </Button>
+          </div>
         )}
 
         {showSearchResult && (
