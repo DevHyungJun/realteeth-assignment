@@ -25,7 +25,7 @@ const WeatherDetailHeader = ({
   return (
     <>
       <Button
-        onClick={() => navigate("/")}
+        onClick={() => navigate(-1)}
         className="mb-3 bg-transparent text-2xl"
         aria-label="뒤로가기"
         variant="secondary"

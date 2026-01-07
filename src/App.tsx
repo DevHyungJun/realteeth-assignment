@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Routes, Route, useSearchParams } from "react-router-dom";
 import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
 import { useGeocode } from "./shared/hooks/useGeocode";
@@ -14,8 +14,14 @@ import {
 } from "./shared/ui";
 import WeatherDetailPage from "./pages/WeatherDetailPage/WeatherDetailPage";
 
+const SEARCH_QUERY_KEY = "q";
+
 function HomePage() {
-  const [searchAddress, setSearchAddress] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get(SEARCH_QUERY_KEY);
+  const [searchAddress, setSearchAddress] = useState<string | null>(
+    searchQuery
+  );
   const {
     position,
     isLocationLoading,
@@ -77,12 +83,30 @@ function HomePage() {
       ? new Error(String(geocodeError))
       : null;
 
+  // URL 쿼리 파라미터와 상태 동기화
+  useEffect(() => {
+    if (searchQuery !== searchAddress) {
+      setSearchAddress(searchQuery);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
+
+  const updateSearchParams = (address: string | null) => {
+    if (address) {
+      setSearchParams({ [SEARCH_QUERY_KEY]: address });
+    } else {
+      setSearchParams({});
+    }
+  };
+
   const handleSelectDistrict = (district: string) => {
     setSearchAddress(district);
+    updateSearchParams(district);
   };
 
   const handleSearch = (district: string) => {
     setSearchAddress(district);
+    updateSearchParams(district);
   };
 
   const showCurrentLocation = !searchAddress && data && !isLocationLoading;
@@ -97,6 +121,7 @@ function HomePage() {
           <WeatherSearch
             onSelectDistrict={handleSelectDistrict}
             onSearch={handleSearch}
+            initialValue={searchAddress}
           />
         </div>
 

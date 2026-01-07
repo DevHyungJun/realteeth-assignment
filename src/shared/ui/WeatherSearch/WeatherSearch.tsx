@@ -1,18 +1,33 @@
 import { useState, useRef, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { filterDistricts } from "../../utils/filterDistricts";
+import BackIcon from "../Icons/BackIcon";
 
 type WeatherSearchProps = {
   onSelectDistrict: (district: string) => void;
   onSearch: (district: string) => void;
+  initialValue?: string | null;
 };
 
-const WeatherSearch = ({ onSelectDistrict, onSearch }: WeatherSearchProps) => {
-  const [searchTerm, setSearchTerm] = useState("");
+const WeatherSearch = ({
+  onSelectDistrict,
+  onSearch,
+  initialValue,
+}: WeatherSearchProps) => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const hasQueryParam = !!searchParams.get("q");
+
+  const [searchTerm, setSearchTerm] = useState(initialValue || "");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
+
+  const handleBackClick = () => {
+    navigate(-1);
+  };
 
   useEffect(() => {
     if (searchTerm.trim()) {
@@ -23,6 +38,14 @@ const WeatherSearch = ({ onSelectDistrict, onSearch }: WeatherSearchProps) => {
     }
     setSelectedIndex(-1);
   }, [searchTerm]);
+
+  // 초기값이 변경되면 input 값 업데이트
+  useEffect(() => {
+    if (initialValue !== undefined && initialValue !== searchTerm) {
+      setSearchTerm(initialValue || "");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValue]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -85,7 +108,19 @@ const WeatherSearch = ({ onSelectDistrict, onSearch }: WeatherSearchProps) => {
 
   return (
     <div className="relative w-full">
-      <form onSubmit={handleSubmit} className="relative">
+      <form
+        onSubmit={handleSubmit}
+        className="relative flex items-center gap-2"
+      >
+        <button
+          type="button"
+          onClick={handleBackClick}
+          disabled={!hasQueryParam}
+          className="flex-shrink-0 w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors"
+          aria-label="뒤로가기"
+        >
+          <BackIcon />
+        </button>
         <input
           ref={inputRef}
           type="text"
@@ -95,7 +130,7 @@ const WeatherSearch = ({ onSelectDistrict, onSearch }: WeatherSearchProps) => {
           onBlur={handleInputBlur}
           onKeyDown={handleKeyDown}
           placeholder="지역명을 입력하세요 (예: 서울, 부산)"
-          className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="flex-1 px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         <button
           type="submit"
@@ -129,4 +164,3 @@ const WeatherSearch = ({ onSelectDistrict, onSearch }: WeatherSearchProps) => {
 };
 
 export default WeatherSearch;
-

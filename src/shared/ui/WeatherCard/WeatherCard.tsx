@@ -39,7 +39,11 @@ const WeatherCard = ({
   const weatherIcon = weather[0]?.icon;
   const weatherDescription = weather[0]?.description || "";
 
-  const handleRouteDetail = () => navigate("/weather-detail", { state: data });
+  const handleRouteDetail = () => {
+    // 상세 페이지로 이동 (쿼리 스트링 없이)
+    // 브라우저 히스토리에 이전 URL이 남아있어 뒤로가기 시 자동으로 복원됨
+    navigate("/weather-detail", { state: data });
+  };
 
   return (
     <div
