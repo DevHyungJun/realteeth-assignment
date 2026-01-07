@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, useSearchParams } from "react-router-dom";
+import { Routes, Route, useSearchParams, useLocation } from "react-router-dom";
 import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
 import { useReverseGeocode } from "./shared/hooks/useReverseGeocode";
@@ -143,6 +143,13 @@ function HomePage() {
 }
 
 function App() {
+  const location = useLocation();
+
+  // 라우팅 변경 시 스크롤을 맨 위로 이동
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
