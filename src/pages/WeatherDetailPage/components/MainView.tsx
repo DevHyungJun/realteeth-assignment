@@ -1,7 +1,11 @@
-import type { CurrentWeatherResponse } from "../../../shared/types";
+import type {
+  CurrentWeatherResponse,
+  Forecast5DayResponse,
+} from "../../../shared/types";
 import InfoSection from "./InfoSection";
 import InfoGridItem from "./InfoGridItem";
 import WeatherDetailHeader from "./WeatherDetailHeader";
+import Weather5Days from "../../../shared/ui/Weather5Days/Weather5Days";
 import {
   MAIN_GRID_ITEMS,
   WIND_ITEMS,
@@ -10,7 +14,12 @@ import {
   ADDITIONAL_INFO_ITEMS,
 } from "../WEATHER_DETAIL_CONFIG";
 
-const MainView = ({ data }: { data: CurrentWeatherResponse }) => {
+type MainViewProps = {
+  data: CurrentWeatherResponse;
+  forecast5Days?: Forecast5DayResponse;
+};
+
+const MainView = ({ data, forecast5Days }: MainViewProps) => {
   const { weather, main, clouds, dt, timezone, name } = data;
 
   const weatherIcon = weather[0]?.icon;
@@ -123,6 +132,11 @@ const MainView = ({ data }: { data: CurrentWeatherResponse }) => {
               })}
             </div>
           </InfoSection>
+
+          <Weather5Days
+            forecastData={forecast5Days}
+            currentDateTimestamp={data.dt}
+          />
         </div>
       </div>
     </div>
