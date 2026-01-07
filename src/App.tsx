@@ -86,7 +86,7 @@ function HomePage() {
   return (
     <main className="min-h-[100dvh] bg-gray-50">
       <h1 className="sr-only">Weather App Main Page</h1>
-      <div className="sticky top-0 z-10 bg-gray-50 p-2 shadow-md">
+      <div className="sticky top-0 z-10 bg-gray-50 p-2">
         <WeatherSearch
           onSelectDistrict={handleSelectDistrict}
           onSearch={handleSearch}
