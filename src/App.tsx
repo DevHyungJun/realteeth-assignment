@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useSearchParams } from "react-router-dom";
 import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
-import { useGeocode } from "./shared/hooks/useGeocode";
+import { useReverseGeocode } from "./shared/hooks/useReverseGeocode";
+import { useMultipleWeatherSearch } from "./shared/hooks/useMultipleWeatherSearch";
 import type { CurrentWeatherResponse } from "./shared/types";
 import {
   Button,
@@ -45,43 +46,14 @@ function HomePage() {
     }
   );
 
-  // 주소를 좌표로 변환
+  // 좌표를 주소로 변환
+  const { data: currentAddress } = useReverseGeocode(lat, lon);
+  // 여러 지역에 대한 날씨 검색
   const {
-    data: geocodeResult,
-    isLoading: isGeocoding,
-    error: geocodeError,
-  } = useGeocode(searchAddress);
-
-  // 좌표로 날씨 검색
-  const {
-    data: searchData,
+    results,
     isLoading: isSearchLoading,
-    error: searchError,
-  } = useBaseQuery<CurrentWeatherResponse>(
-    ["weather-search", geocodeResult?.lat, geocodeResult?.lon],
-    "/data/2.5/weather",
-    {
-      params: {
-        lat: geocodeResult?.lat,
-        lon: geocodeResult?.lon,
-      },
-      enabled: !!geocodeResult,
-    }
-  );
-
-  const searchErrorAsError =
-    searchError instanceof Error
-      ? searchError
-      : searchError
-      ? new Error(String(searchError))
-      : null;
-
-  const geocodeErrorAsError =
-    geocodeError instanceof Error
-      ? geocodeError
-      : geocodeError
-      ? new Error(String(geocodeError))
-      : null;
+    hasError,
+  } = useMultipleWeatherSearch(searchAddress);
 
   // URL 쿼리 파라미터와 상태 동기화
   useEffect(() => {
@@ -111,7 +83,6 @@ function HomePage() {
 
   const showCurrentLocation = !searchAddress && data && !isLocationLoading;
   const showSearchResult = searchAddress;
-  const isSearchProcessing = isGeocoding || (isSearchLoading && !searchData);
 
   return (
     <main className="min-h-[100dvh] bg-gray-50">
@@ -138,9 +109,9 @@ function HomePage() {
 
         {showSearchResult && (
           <WeatherSearchResult
-            data={searchData}
-            isLoading={isSearchProcessing}
-            error={geocodeErrorAsError || searchErrorAsError}
+            results={results}
+            isLoading={isSearchLoading}
+            hasError={hasError}
             searchTerm={searchAddress || ""}
           />
         )}
@@ -155,7 +126,11 @@ function HomePage() {
         )}
 
         {showCurrentLocation && (
-          <WeatherCard data={data} isCurrentWeather={isWeatherSuccess} />
+          <WeatherCard
+            data={data}
+            isCurrentWeather={isWeatherSuccess}
+            displayAddress={currentAddress}
+          />
         )}
       </div>
     </main>

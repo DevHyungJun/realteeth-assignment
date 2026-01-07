@@ -5,9 +5,20 @@ import MainView from "./components/MainView";
 import useBaseQuery from "../../shared/api/useBaseQuery";
 import type { Forecast5DayResponse } from "../../shared/types";
 
+type WeatherDetailState = CurrentWeatherResponse & {
+  district?: string;
+};
+
 const WeatherDetailPage = () => {
   const location = useLocation();
-  const data = location.state as CurrentWeatherResponse;
+  const state = location.state as WeatherDetailState | null;
+  const data = state as CurrentWeatherResponse | null;
+  const district = (state as WeatherDetailState)?.district;
+
+  if (!data) {
+    return <EmptyDetail />;
+  }
+
   const { lat, lon } = data.coord;
   const { data: weather5Days } = useBaseQuery<Forecast5DayResponse>(
     ["weather-forecast", data.coord.lat, data.coord.lon],
@@ -22,11 +33,7 @@ const WeatherDetailPage = () => {
 
   return (
     <>
-      {data ? (
-        <MainView data={data} forecast5Days={weather5Days} />
-      ) : (
-        <EmptyDetail />
-      )}
+      <MainView data={data} forecast5Days={weather5Days} district={district} />
     </>
   );
 };

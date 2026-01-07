@@ -30,19 +30,29 @@ const WeatherInfoItem = ({
 const WeatherCard = ({
   data,
   isCurrentWeather,
+  displayAddress,
 }: {
   data: CurrentWeatherResponse;
   isCurrentWeather: boolean;
+  displayAddress?: string | null;
 }) => {
   const navigate = useNavigate();
   const { main, weather, name, wind } = data;
   const weatherIcon = weather[0]?.icon;
   const weatherDescription = weather[0]?.description || "";
 
+  // 표시할 주소: displayAddress가 있으면 사용, 없으면 name 사용
+  const displayName = displayAddress || name;
+
   const handleRouteDetail = () => {
     // 상세 페이지로 이동 (쿼리 스트링 없이)
     // 브라우저 히스토리에 이전 URL이 남아있어 뒤로가기 시 자동으로 복원됨
-    navigate("/weather-detail", { state: data });
+    navigate("/weather-detail", {
+      state: {
+        ...data,
+        district: displayAddress,
+      },
+    });
   };
 
   return (
@@ -66,7 +76,7 @@ const WeatherCard = ({
             {getTemperature(main.temp)}°
           </div>
         </div>
-        <h2 className="text-xl font-bold">{name}</h2>
+        <h2 className="text-xl font-bold">{displayName}</h2>
       </div>
 
       {weatherDescription && (

@@ -17,20 +17,24 @@ import {
 type MainViewProps = {
   data: CurrentWeatherResponse;
   forecast5Days?: Forecast5DayResponse;
+  district?: string;
 };
 
-const MainView = ({ data, forecast5Days }: MainViewProps) => {
+const MainView = ({ data, forecast5Days, district }: MainViewProps) => {
   const { weather, main, clouds, dt, timezone, name } = data;
 
   const weatherIcon = weather[0]?.icon;
   const weatherDescription = weather[0]?.description || "";
+
+  // 표시할 이름: district가 있으면 district 사용, 없으면 name 사용
+  const displayName = district || name;
 
   return (
     <div className="min-h-[100dvh] bg-gray-50">
       <div className="sm:px-4 sm:py-8 px-3 py-5 max-w-2xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6">
           <WeatherDetailHeader
-            name={name}
+            name={displayName}
             weatherIcon={weatherIcon}
             weatherDescription={weatherDescription}
             temperature={main.temp}
