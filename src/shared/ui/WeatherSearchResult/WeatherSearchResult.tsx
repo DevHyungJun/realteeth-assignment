@@ -71,7 +71,10 @@ const WeatherSearchResultItem = ({
       className="bg-white rounded-lg shadow-lg p-4 cursor-pointer hover:shadow-xl transition-shadow relative"
       onClick={handleClick}
     >
-      <div className="absolute top-4 right-4" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="absolute top-4 right-4"
+        onClick={(e) => e.stopPropagation()}
+      >
         <FavoriteButton data={data} district={district} />
       </div>
       <div className="flex items-center gap-3">
@@ -83,17 +86,19 @@ const WeatherSearchResultItem = ({
               className="w-12 h-12"
             />
           )}
-          <div className="text-3xl text-gray-800 font-light">
+          <div className="text-2xl sm:text-3xl text-gray-800 font-light">
             {getTemperature(main.temp)}°
           </div>
         </div>
-        <div className="flex-1">
-          <h2 className="text-xl font-bold">{displayName}</h2>
+        <div className="flex-1 pr-[28px]">
+          <h2 className="text-lg sm:text-xl font-bold">{displayName}</h2>
           {displayAddress && (
-            <p className="text-sm text-gray-500 mt-1">{displayAddress}</p>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+              {displayAddress}
+            </p>
           )}
           {weatherDescription && (
-            <p className="text-sm text-gray-600 capitalize mt-1">
+            <p className="text-xs sm:text-sm text-gray-600 capitalize mt-1">
               {weatherDescription}
             </p>
           )}
@@ -122,7 +127,6 @@ const WeatherSearchResult = ({
   results,
   isLoading,
   hasError,
-  searchTerm,
 }: WeatherSearchResultProps) => {
   if (isLoading) {
     return (
@@ -150,9 +154,7 @@ const WeatherSearchResult = ({
   if (validResults.length === 0) {
     return (
       <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-        <p className="text-gray-600">
-          해당 장소의 정보가 제공되지 않습니다.
-        </p>
+        <p className="text-gray-600">해당 장소의 정보가 제공되지 않습니다.</p>
       </div>
     );
   }
