@@ -3,6 +3,10 @@ import type { CurrentWeatherResponse } from "../../types";
 import WEATHER_INFO_ITEMS from "./WEATHER_INFO_ITEMS";
 import { getTemperature, getWeatherIconUrl } from "../../utils";
 import FavoriteButton from "../FavoriteButton/FavoriteButton";
+import {
+  useFavoritesStore,
+  generateFavoriteId,
+} from "../../config/favoritesStore";
 
 type WeatherInfoItemProps = {
   label: string;
@@ -36,12 +40,26 @@ const WeatherCard = ({
   displayAddress?: string | null;
 }) => {
   const navigate = useNavigate();
+  const { getFavoriteById } = useFavoritesStore();
   const { main, weather, name, wind } = data;
   const weatherIcon = weather[0]?.icon;
   const weatherDescription = weather[0]?.description || "";
 
-  // 표시할 주소: displayAddress가 있으면 사용, 없으면 name 사용
-  const displayName = displayAddress || name;
+  // 즐겨찾기에 등록되어 있는지 확인
+  const favoriteId = generateFavoriteId(data);
+  const favorite = getFavoriteById(favoriteId);
+
+  // 표시할 이름과 주소 결정
+  const baseAddress = displayAddress || name;
+  const displayName = favorite
+    ? favorite.name !== (favorite.district || name)
+      ? favorite.name
+      : baseAddress
+    : baseAddress;
+  const displayDistrict =
+    favorite && favorite.district && favorite.name !== favorite.district
+      ? favorite.district
+      : displayAddress;
 
   const handleRouteDetail = () => {
     // 상세 페이지로 이동 (쿼리 스트링 없이)
@@ -49,7 +67,11 @@ const WeatherCard = ({
     navigate("/weather-detail", {
       state: {
         ...data,
-        district: displayAddress,
+        district: favorite?.district || displayAddress,
+        favoriteName:
+          favorite && favorite.name !== (favorite.district || name)
+            ? favorite.name
+            : undefined,
       },
     });
   };
@@ -78,7 +100,12 @@ const WeatherCard = ({
             {getTemperature(main.temp)}°
           </div>
         </div>
-        <h2 className="text-xl font-bold">{displayName}</h2>
+        <div className="flex-1">
+          <h2 className="text-xl font-bold">{displayName}</h2>
+          {displayDistrict && displayDistrict !== displayName && (
+            <p className="text-sm text-gray-500 mt-1">{displayDistrict}</p>
+          )}
+        </div>
       </div>
 
       {weatherDescription && (

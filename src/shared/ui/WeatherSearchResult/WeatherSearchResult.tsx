@@ -4,6 +4,10 @@ import { getTemperature, getWeatherIconUrl } from "../../utils";
 import WeatherCardSkeleton from "../WeatherCardSkeleton/WeatherCardSkeleton";
 import type { WeatherSearchItem } from "../../hooks/useMultipleWeatherSearch";
 import FavoriteButton from "../FavoriteButton/FavoriteButton";
+import {
+  useFavoritesStore,
+  generateFavoriteId,
+} from "../../config/favoritesStore";
 
 type WeatherSearchResultProps = {
   results: WeatherSearchItem[];
@@ -23,6 +27,7 @@ const WeatherSearchResultItem = ({
   error: Error | null;
 }) => {
   const navigate = useNavigate();
+  const { getFavoriteById } = useFavoritesStore();
 
   // 에러가 있거나 데이터가 없으면 렌더링하지 않음
   if (error || !data) {
@@ -33,18 +38,34 @@ const WeatherSearchResultItem = ({
   const weatherIcon = weather[0]?.icon;
   const weatherDescription = weather[0]?.description || "";
 
+  // 즐겨찾기에 등록되어 있는지 확인
+  const favoriteId = generateFavoriteId(data);
+  const favorite = getFavoriteById(favoriteId);
+
+  // 표시할 이름과 주소 결정
+  const displayName = favorite
+    ? favorite.name !== (favorite.district || data.name)
+      ? favorite.name
+      : district
+    : district;
+  const displayAddress =
+    favorite && favorite.district && favorite.name !== favorite.district
+      ? favorite.district
+      : null;
+
   const handleClick = () => {
-    // district 정보를 함께 전달
+    // district와 favoriteName 정보를 함께 전달
     navigate("/weather-detail", {
       state: {
         ...data,
-        district,
+        district: favorite?.district || district,
+        favoriteName:
+          favorite && favorite.name !== (favorite.district || data.name)
+            ? favorite.name
+            : undefined,
       },
     });
   };
-
-  // 표시할 주소: VWorld API에 전달한 원본 지역명 사용
-  const displayAddress = district;
   return (
     <div
       className="bg-white rounded-lg shadow-lg p-4 cursor-pointer hover:shadow-xl transition-shadow relative"
@@ -67,9 +88,12 @@ const WeatherSearchResultItem = ({
           </div>
         </div>
         <div className="flex-1">
-          <h2 className="text-xl font-bold">{displayAddress}</h2>
+          <h2 className="text-xl font-bold">{displayName}</h2>
+          {displayAddress && (
+            <p className="text-sm text-gray-500 mt-1">{displayAddress}</p>
+          )}
           {weatherDescription && (
-            <p className="text-sm text-gray-600 capitalize">
+            <p className="text-sm text-gray-600 capitalize mt-1">
               {weatherDescription}
             </p>
           )}
