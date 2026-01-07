@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useFavoritesStore } from "../../config/favoritesStore";
 import { getTemperature, getWeatherIconUrl } from "../../utils";
 import FavoriteButton from "../FavoriteButton/FavoriteButton";
+import StarIcon from "../Icons/StarIcon";
 import type { CurrentWeatherResponse } from "../../types";
 
 const FavoriteItem = ({
@@ -134,7 +135,10 @@ const FavoriteList = () => {
 
   return (
     <div className="mt-6">
-      <h2 className="text-lg font-medium text-gray-500 mb-4">즐겨찾기</h2>
+      <div className="flex items-center gap-2 mb-4">
+        <StarIcon filled className="h-5 w-5 text-yellow-500" />
+        <h2 className="text-lg font-medium text-gray-500">즐겨찾기</h2>
+      </div>
       <div className="space-y-4">
         {favorites.map((favorite) => (
           <FavoriteItem key={favorite.id} favorite={favorite} />

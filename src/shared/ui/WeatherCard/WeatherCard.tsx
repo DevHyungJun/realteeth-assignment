@@ -30,11 +30,9 @@ const WeatherInfoItem = ({
 
 const WeatherCard = ({
   data,
-  isCurrentWeather,
   displayAddress,
 }: {
   data: CurrentWeatherResponse;
-  isCurrentWeather: boolean;
   displayAddress?: string | null;
 }) => {
   const navigate = useNavigate();
@@ -67,9 +65,6 @@ const WeatherCard = ({
       >
         <FavoriteButton data={data} district={displayAddress || undefined} />
       </div>
-      {isCurrentWeather && (
-        <h2 className="text-lg font-medium mb-3 text-gray-500">현재 위치</h2>
-      )}
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-1">
           {weatherIcon && (

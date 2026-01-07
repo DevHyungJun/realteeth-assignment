@@ -31,21 +31,18 @@ function HomePage() {
     refetch: refetchLocation,
   } = useGetLocation();
   const { latitude: lat, longitude: lon } = position || {};
-  const {
-    data,
-    isLoading: isWeatherLoading,
-    isSuccess: isWeatherSuccess,
-  } = useBaseQuery<CurrentWeatherResponse>(
-    ["weather", lat, lon],
-    "/data/2.5/weather",
-    {
-      params: {
-        lat,
-        lon,
-      },
-      enabled: !!lat && !!lon && !searchAddress,
-    }
-  );
+  const { data, isLoading: isWeatherLoading } =
+    useBaseQuery<CurrentWeatherResponse>(
+      ["weather", lat, lon],
+      "/data/2.5/weather",
+      {
+        params: {
+          lat,
+          lon,
+        },
+        enabled: !!lat && !!lon && !searchAddress,
+      }
+    );
 
   // 좌표를 주소로 변환
   const { data: currentAddress } = useReverseGeocode(lat, lon);
@@ -130,11 +127,13 @@ function HomePage() {
 
         {showCurrentLocation && (
           <>
-            <WeatherCard
-              data={data}
-              isCurrentWeather={isWeatherSuccess}
-              displayAddress={currentAddress}
-            />
+            <section className="mb-8 pb-8 border-b border-gray-200">
+              <div className="flex items-center gap-2 mb-4">
+                <LocationIcon className="h-5 w-5 text-green-500" />
+                <h2 className="text-lg font-medium text-gray-500">현재 위치</h2>
+              </div>
+              <WeatherCard data={data} displayAddress={currentAddress} />
+            </section>
             <FavoriteList />
           </>
         )}
