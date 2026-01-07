@@ -27,7 +27,9 @@ const Weather5Days = ({
 
   return (
     <div className="mt-8 pt-6 border-t border-gray-200">
-      <h3 className="text-2xl font-semibold text-gray-800 mb-4">5일 예보</h3>
+      <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+        5일간의 일기예보
+      </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
         {forecastsWithIconUrl.map(
           ({ date, dateLabel, weather, temperature, weatherIconUrl }) => {

@@ -48,7 +48,9 @@ const HourlyForecast = ({
 
   return (
     <div className="mt-8 pt-6 border-t border-gray-200">
-      <h3 className="text-2xl font-semibold text-gray-800 mb-4">시간대별 기온</h3>
+      <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+        오늘 시간대별 일기예보
+      </h3>
       <div className="overflow-x-auto">
         <div className="flex gap-4 min-w-max pb-2">
           {todayForecasts.map((forecast) => {
@@ -86,4 +88,3 @@ const HourlyForecast = ({
 };
 
 export default HourlyForecast;
-
