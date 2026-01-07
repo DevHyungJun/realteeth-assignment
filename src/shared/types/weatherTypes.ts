@@ -20,7 +20,7 @@ export interface Main {
   humidity: number;
   sea_level?: number;
   grnd_level?: number;
-  temp_kf?: number; // 5일 예보에서만 사용
+  temp_kf?: number; // 5일 예보에서만 사용 (항상 포함되지만 일부 항목에서는 0)
 }
 
 export interface Wind {
@@ -113,4 +113,3 @@ export interface Forecast5DayResponse {
   list: ForecastItem[];
   city: City;
 }
-

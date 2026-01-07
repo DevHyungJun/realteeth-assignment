@@ -9,7 +9,7 @@ const WeatherDetailPage = () => {
   const location = useLocation();
   const data = location.state as CurrentWeatherResponse;
   const { lat, lon } = data.coord;
-  const { data: weather4Days } = useBaseQuery<Forecast5DayResponse>(
+  const { data: weather5Days } = useBaseQuery<Forecast5DayResponse>(
     ["weather", data.coord.lat, data.coord.lon],
     "/data/2.5/forecast",
     {
@@ -20,7 +20,7 @@ const WeatherDetailPage = () => {
     }
   );
 
-  console.log(weather4Days);
+  console.log(weather5Days);
 
   return <>{data ? <MainView data={data} /> : <EmptyDetail />}</>;
 };
