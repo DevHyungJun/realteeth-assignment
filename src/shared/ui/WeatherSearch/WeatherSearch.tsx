@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { filterDistricts } from "../../utils/filterDistricts";
 import BackIcon from "../Icons/BackIcon";
+import SearchIcon from "../Icons/SearchIcon";
 
 type WeatherSearchProps = {
   onSelectDistrict: (district: string) => void;
@@ -24,10 +25,6 @@ const WeatherSearch = ({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
-
-  const handleBackClick = () => {
-    navigate(-1);
-  };
 
   useEffect(() => {
     if (searchTerm.trim()) {
@@ -114,7 +111,7 @@ const WeatherSearch = ({
       >
         <button
           type="button"
-          onClick={handleBackClick}
+          onClick={() => navigate(-1)}
           disabled={!hasQueryParam}
           className="flex-shrink-0 w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors"
           aria-label="뒤로가기"
@@ -134,9 +131,11 @@ const WeatherSearch = ({
         />
         <button
           type="submit"
-          className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 text-sm text-blue-600 hover:text-blue-700 font-medium"
+          disabled={!searchTerm.trim()}
+          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-blue-600 hover:text-blue-700 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors"
+          aria-label="검색"
         >
-          검색
+          <SearchIcon />
         </button>
       </form>
 
