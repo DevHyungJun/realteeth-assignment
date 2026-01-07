@@ -18,9 +18,10 @@ type MainViewProps = {
   data: CurrentWeatherResponse;
   forecast5Days?: Forecast5DayResponse;
   district?: string;
+  favoriteName?: string;
 };
 
-const MainView = ({ data, forecast5Days, district }: MainViewProps) => {
+const MainView = ({ data, forecast5Days, district, favoriteName }: MainViewProps) => {
   const { weather, main, clouds, dt, timezone, name } = data;
 
   const weatherIcon = weather[0]?.icon;
@@ -42,6 +43,7 @@ const MainView = ({ data, forecast5Days, district }: MainViewProps) => {
             timezone={timezone}
             data={data}
             district={district}
+            favoriteName={favoriteName}
           />
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">

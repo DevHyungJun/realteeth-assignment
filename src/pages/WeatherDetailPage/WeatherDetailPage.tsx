@@ -7,6 +7,7 @@ import type { Forecast5DayResponse } from "../../shared/types";
 
 type WeatherDetailState = CurrentWeatherResponse & {
   district?: string;
+  favoriteName?: string;
 };
 
 const WeatherDetailPage = () => {
@@ -14,6 +15,7 @@ const WeatherDetailPage = () => {
   const state = location.state as WeatherDetailState | null;
   const data = state as CurrentWeatherResponse | null;
   const district = (state as WeatherDetailState)?.district;
+  const favoriteName = (state as WeatherDetailState)?.favoriteName;
 
   if (!data) {
     return <EmptyDetail />;
@@ -33,7 +35,7 @@ const WeatherDetailPage = () => {
 
   return (
     <>
-      <MainView data={data} forecast5Days={weather5Days} district={district} />
+      <MainView data={data} forecast5Days={weather5Days} district={district} favoriteName={favoriteName} />
     </>
   );
 };

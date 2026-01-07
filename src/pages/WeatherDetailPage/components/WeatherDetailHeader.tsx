@@ -15,6 +15,7 @@ type WeatherDetailHeaderProps = {
   timezone: number;
   data: CurrentWeatherResponse;
   district?: string;
+  favoriteName?: string;
 };
 
 const WeatherDetailHeader = ({
@@ -26,6 +27,7 @@ const WeatherDetailHeader = ({
   timezone,
   data,
   district,
+  favoriteName,
 }: WeatherDetailHeaderProps) => {
   const navigate = useNavigate();
   return (
@@ -50,7 +52,14 @@ const WeatherDetailHeader = ({
           />
         )}
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">{name}</h1>
+          {favoriteName ? (
+            <>
+              <h1 className="text-3xl font-bold text-gray-800 mb-1">{favoriteName}</h1>
+              <p className="text-lg text-gray-500 mb-1">{name}</p>
+            </>
+          ) : (
+            <h1 className="text-3xl font-bold text-gray-800">{name}</h1>
+          )}
           <p className="text-sm text-gray-500">
             {formatDate(timestamp, timezone)}
           </p>
