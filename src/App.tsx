@@ -95,21 +95,6 @@ function HomePage() {
           />
         </div>
 
-        {!searchAddress && (
-          <div className="w-full flex justify-end">
-            <Button
-              onClick={refetchLocation}
-              disabled={isLocationLoading}
-              className="mb-4"
-              aria-label="위치 새로고침"
-            >
-              <RefreshIcon
-                className={`h-5 w-5 ${isLocationLoading ? "animate-spin" : ""}`}
-              />
-            </Button>
-          </div>
-        )}
-
         {showSearchResult && (
           <WeatherSearchResult
             results={results}
@@ -131,9 +116,24 @@ function HomePage() {
         {showCurrentLocation && (
           <>
             <section className="mb-8 pb-8 border-b border-gray-200">
-              <div className="flex items-center gap-2 mb-4">
-                <LocationIcon className="h-5 w-5 text-green-500" />
-                <h2 className="text-lg font-medium text-gray-500">현재 위치</h2>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <LocationIcon className="h-5 w-5 text-green-500" />
+                  <h2 className="text-lg font-medium text-gray-500">
+                    현재 위치
+                  </h2>
+                </div>
+                <Button
+                  onClick={refetchLocation}
+                  disabled={isLocationLoading}
+                  aria-label="위치 새로고침"
+                >
+                  <RefreshIcon
+                    className={`h-5 w-5 ${
+                      isLocationLoading ? "animate-spin" : ""
+                    }`}
+                  />
+                </Button>
               </div>
               <WeatherCard data={data} displayAddress={currentAddress} />
             </section>
