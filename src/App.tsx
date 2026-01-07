@@ -2,7 +2,12 @@ import { Routes, Route } from "react-router-dom";
 import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
 import type { CurrentWeatherResponse } from "./shared/types/CurrentWeatherResponseType";
-import { Button, WeatherCard, WeatherCardSkeleton } from "./shared/ui";
+import {
+  Button,
+  WeatherCard,
+  WeatherCardSkeleton,
+  LocationIcon,
+} from "./shared/ui";
 import WeatherDetailPage from "./pages/WeatherDetailPage/WeatherDetailPage";
 
 function HomePage() {
@@ -36,9 +41,10 @@ function HomePage() {
         <Button
           onClick={refetchLocation}
           disabled={isLocationLoading}
-          className="mb-4"
+          className="mb-4 flex items-center gap-2"
         >
-          내 위치 새로고침
+          <LocationIcon className="h-5 w-5 text-green-500" />
+          위치 새로고침
         </Button>
         {(isLocationLoading || (isWeatherLoading && !data)) && (
           <WeatherCardSkeleton />
