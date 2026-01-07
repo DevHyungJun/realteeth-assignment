@@ -27,8 +27,8 @@ const WeatherDetailPage = () => {
 
   return (
     <div className="min-h-[100dvh] bg-gray-50">
-      <div className="px-4 py-8 max-w-2xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="sm:px-4 sm:py-8 px-3 py-5 max-w-2xl mx-auto">
+        <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6">
           <WeatherDetailHeader
             name={name}
             weatherIcon={weatherIcon}
