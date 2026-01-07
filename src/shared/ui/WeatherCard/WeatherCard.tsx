@@ -100,10 +100,8 @@ const WeatherCard = ({
             {getTemperature(main.temp)}°
           </div>
         </div>
-        <div className="flex-1">
-          <h2 className="text-lg sm:text-xl font-bold truncate">
-            {displayName}
-          </h2>
+        <div className="flex-1 pr-[28px]">
+          <h2 className="text-lg sm:text-xl font-bold">{displayName}</h2>
           {displayDistrict && displayDistrict !== displayName && (
             <p className="text-sm text-gray-500 mt-1">{displayDistrict}</p>
           )}

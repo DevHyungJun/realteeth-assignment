@@ -108,7 +108,7 @@ const FavoriteItem = ({
               />
             ) : (
               <h2
-                className="text-lg sm:text-xl font-bold hover:text-blue-600 transition-colors cursor-text inline-block"
+                className="text-lg sm:text-xl font-bold hover:text-blue-600 transition-colors cursor-text inline-block pr-[28px]"
                 onClick={handleNameClick}
               >
                 {favorite.name}
