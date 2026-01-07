@@ -40,6 +40,8 @@ const MainView = ({ data, forecast5Days, district }: MainViewProps) => {
             temperature={main.temp}
             timestamp={dt}
             timezone={timezone}
+            data={data}
+            district={district}
           />
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import type { CurrentWeatherResponse } from "../../types";
 import WEATHER_INFO_ITEMS from "./WEATHER_INFO_ITEMS";
 import { getTemperature, getWeatherIconUrl } from "../../utils";
+import FavoriteButton from "../FavoriteButton/FavoriteButton";
 
 type WeatherInfoItemProps = {
   label: string;
@@ -57,9 +58,15 @@ const WeatherCard = ({
 
   return (
     <div
-      className="bg-white rounded-lg shadow-lg p-4 cursor-pointer hover:shadow-xl transition-shadow"
+      className="bg-white rounded-lg shadow-lg p-4 cursor-pointer hover:shadow-xl transition-shadow relative"
       onClick={handleRouteDetail}
     >
+      <div
+        className="absolute top-4 right-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <FavoriteButton data={data} district={displayAddress || undefined} />
+      </div>
       {isCurrentWeather && (
         <h2 className="text-lg font-medium mb-3 text-gray-500">현재 위치</h2>
       )}

@@ -3,6 +3,8 @@ import { Button } from "../../../shared/ui";
 import { getWeatherIconUrl } from "../../../shared/utils";
 import { getTemperature } from "../../../shared/utils";
 import { formatDate } from "../../../shared/utils";
+import FavoriteButton from "../../../shared/ui/FavoriteButton/FavoriteButton";
+import type { CurrentWeatherResponse } from "../../../shared/types";
 
 type WeatherDetailHeaderProps = {
   name: string;
@@ -11,6 +13,8 @@ type WeatherDetailHeaderProps = {
   temperature: number;
   timestamp: number;
   timezone: number;
+  data: CurrentWeatherResponse;
+  district?: string;
 };
 
 const WeatherDetailHeader = ({
@@ -20,18 +24,23 @@ const WeatherDetailHeader = ({
   temperature,
   timestamp,
   timezone,
+  data,
+  district,
 }: WeatherDetailHeaderProps) => {
   const navigate = useNavigate();
   return (
     <>
-      <Button
-        onClick={() => navigate(-1)}
-        className="mb-3 bg-transparent text-2xl"
-        aria-label="뒤로가기"
-        variant="secondary"
-      >
-        ←
-      </Button>
+      <div className="flex items-center justify-between mb-3">
+        <Button
+          onClick={() => navigate(-1)}
+          className="bg-transparent text-2xl"
+          aria-label="뒤로가기"
+          variant="secondary"
+        >
+          ←
+        </Button>
+        <FavoriteButton data={data} district={district} />
+      </div>
       <div className="flex items-center gap-3 mb-6">
         {weatherIcon && (
           <img

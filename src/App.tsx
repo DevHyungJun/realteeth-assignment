@@ -13,6 +13,7 @@ import {
   WeatherSearch,
   WeatherSearchResult,
 } from "./shared/ui";
+import FavoriteList from "./shared/ui/FavoriteList/FavoriteList";
 import WeatherDetailPage from "./pages/WeatherDetailPage/WeatherDetailPage";
 
 const SEARCH_QUERY_KEY = "q";
@@ -128,11 +129,14 @@ function HomePage() {
         )}
 
         {showCurrentLocation && (
-          <WeatherCard
-            data={data}
-            isCurrentWeather={isWeatherSuccess}
-            displayAddress={currentAddress}
-          />
+          <>
+            <WeatherCard
+              data={data}
+              isCurrentWeather={isWeatherSuccess}
+              displayAddress={currentAddress}
+            />
+            <FavoriteList />
+          </>
         )}
       </div>
     </main>

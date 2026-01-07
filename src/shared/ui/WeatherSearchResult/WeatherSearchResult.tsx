@@ -3,6 +3,7 @@ import type { CurrentWeatherResponse } from "../../types";
 import { getTemperature, getWeatherIconUrl } from "../../utils";
 import WeatherCardSkeleton from "../WeatherCardSkeleton/WeatherCardSkeleton";
 import type { WeatherSearchItem } from "../../hooks/useMultipleWeatherSearch";
+import FavoriteButton from "../FavoriteButton/FavoriteButton";
 
 type WeatherSearchResultProps = {
   results: WeatherSearchItem[];
@@ -46,9 +47,12 @@ const WeatherSearchResultItem = ({
   const displayAddress = district;
   return (
     <div
-      className="bg-white rounded-lg shadow-lg p-4 cursor-pointer hover:shadow-xl transition-shadow"
+      className="bg-white rounded-lg shadow-lg p-4 cursor-pointer hover:shadow-xl transition-shadow relative"
       onClick={handleClick}
     >
+      <div className="absolute top-4 right-4" onClick={(e) => e.stopPropagation()}>
+        <FavoriteButton data={data} district={displayAddress || undefined} />
+      </div>
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-1">
           {weatherIcon && (
