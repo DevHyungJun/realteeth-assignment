@@ -10,6 +10,7 @@ import {
   WeatherCard,
   WeatherCardSkeleton,
   LocationIcon,
+  RefreshIcon,
   WeatherSearch,
   WeatherSearchResult,
 } from "./shared/ui";
@@ -99,10 +100,12 @@ function HomePage() {
             <Button
               onClick={refetchLocation}
               disabled={isLocationLoading}
-              className="mb-4 flex items-center gap-2 text-sm"
+              className="mb-4"
+              aria-label="위치 새로고침"
             >
-              <LocationIcon className="h-4 w-4 text-green-500" />
-              새로고침
+              <RefreshIcon
+                className={`h-5 w-5 ${isLocationLoading ? "animate-spin" : ""}`}
+              />
             </Button>
           </div>
         )}
