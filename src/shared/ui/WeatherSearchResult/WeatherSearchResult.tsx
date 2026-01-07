@@ -72,7 +72,7 @@ const WeatherSearchResultItem = ({
       onClick={handleClick}
     >
       <div className="absolute top-4 right-4" onClick={(e) => e.stopPropagation()}>
-        <FavoriteButton data={data} district={displayAddress || undefined} />
+        <FavoriteButton data={data} district={district} />
       </div>
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-1">

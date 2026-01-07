@@ -157,8 +157,8 @@ const FavoriteList = () => {
         <StarIcon filled className="h-5 w-5 text-yellow-500" />
         <h2 className="text-lg font-medium text-gray-500">즐겨찾기</h2>
         <span className="text-sm text-gray-500">
-          즐겨찾기는 최대 6개까지 등록하실 수 있으며, 지역명을 클릭하여 수정하실
-          수 있습니다.
+          즐겨찾기는 최대 6개까지 등록하실 수 있으며, 지역명을 클릭하여 별칭을
+          등록/수정할 수 있습니다.
         </span>
       </div>
       <div className="space-y-4">
