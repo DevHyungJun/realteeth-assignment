@@ -60,7 +60,7 @@ const WeatherDetailHeader = ({
               <p className="text-base sm:text-lg text-gray-500 mb-1">{name}</p>
             </>
           ) : (
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+            <h1 className="text-lg sm:text-3xl font-bold text-gray-800">
               {name}
             </h1>
           )}
