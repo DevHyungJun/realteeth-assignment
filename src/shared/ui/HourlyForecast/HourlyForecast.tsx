@@ -51,7 +51,7 @@ const HourlyForecast = ({
       <h3 className="text-2xl font-semibold text-gray-800 mb-4">
         오늘 시간대별 일기예보
       </h3>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto hide-scrollbar">
         <div className="flex gap-4 min-w-max pb-2">
           {todayForecasts.map((forecast) => {
             const weatherIcon = forecast.weather[0]?.icon;
