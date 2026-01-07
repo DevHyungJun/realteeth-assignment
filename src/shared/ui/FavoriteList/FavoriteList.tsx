@@ -89,7 +89,7 @@ const FavoriteItem = ({
               className="w-12 h-12"
             />
           )}
-          <div className="text-3xl text-gray-800 font-light">
+          <div className="text-2xl sm:text-3xl text-gray-800 font-light">
             {getTemperature(main.temp)}°
           </div>
         </div>
@@ -108,7 +108,7 @@ const FavoriteItem = ({
               />
             ) : (
               <h2
-                className="text-xl font-bold hover:text-blue-600 transition-colors cursor-text inline-block"
+                className="text-lg sm:text-xl font-bold hover:text-blue-600 transition-colors cursor-text inline-block"
                 onClick={handleNameClick}
               >
                 {favorite.name}
@@ -116,10 +116,12 @@ const FavoriteItem = ({
             )}
           </div>
           {favorite.district && favorite.district !== favorite.name && (
-            <p className="text-sm text-gray-500 mt-1">{favorite.district}</p>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+              {favorite.district}
+            </p>
           )}
           {weatherDescription && (
-            <p className="text-sm text-gray-600 capitalize mt-1">
+            <p className="text-xs sm:text-sm text-gray-600 capitalize mt-1">
               {weatherDescription}
             </p>
           )}
@@ -155,8 +157,10 @@ const FavoriteList = () => {
     <div className="mt-6">
       <div className="flex items-center gap-2 mb-4">
         <StarIcon filled className="h-5 w-5 text-yellow-500" />
-        <h2 className="text-lg font-medium text-gray-500">즐겨찾기</h2>
-        <span className="text-sm text-gray-500">
+        <h2 className="text-lg font-medium text-gray-500 text-nowrap">
+          즐겨찾기
+        </h2>
+        <span className="text-xs sm:text-sm text-gray-500">
           즐겨찾기는 최대 6개까지 등록하실 수 있으며, 지역명을 클릭하여 별칭을
           등록/수정할 수 있습니다.
         </span>

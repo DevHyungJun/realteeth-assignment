@@ -96,12 +96,14 @@ const WeatherCard = ({
               className="w-12 h-12"
             />
           )}
-          <div className="text-3xl text-gray-800 font-light">
+          <div className="text-2xl sm:text-3xl text-gray-800 font-light">
             {getTemperature(main.temp)}°
           </div>
         </div>
         <div className="flex-1">
-          <h2 className="text-xl font-bold">{displayName}</h2>
+          <h2 className="text-lg sm:text-xl font-bold truncate">
+            {displayName}
+          </h2>
           {displayDistrict && displayDistrict !== displayName && (
             <p className="text-sm text-gray-500 mt-1">{displayDistrict}</p>
           )}
