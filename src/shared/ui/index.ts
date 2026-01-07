@@ -4,5 +4,6 @@ export { default as WeatherCardSkeleton } from "./WeatherCardSkeleton/WeatherCar
 export { default as LocationIcon } from "./Icons/LocationIcon";
 export { default as BackIcon } from "./Icons/BackIcon";
 export { default as SearchIcon } from "./Icons/SearchIcon";
+export { default as ClearIcon } from "./Icons/ClearIcon";
 export { default as WeatherSearch } from "./WeatherSearch/WeatherSearch";
 export { default as WeatherSearchResult } from "./WeatherSearchResult/WeatherSearchResult";
