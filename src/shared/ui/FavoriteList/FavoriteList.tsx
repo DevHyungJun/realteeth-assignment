@@ -102,7 +102,7 @@ const FavoriteItem = ({
                 onChange={(e) => setEditName(e.target.value)}
                 onBlur={handleNameBlur}
                 onKeyDown={handleNameKeyDown}
-                className="text-xl font-bold border-b-2 border-blue-500 focus:outline-none w-full min-w-[100px]"
+                className="text-lg sm:text-xl font-bold border-b-2 border-blue-500 focus:outline-none w-full min-w-[100px] pr-[28px]"
                 autoFocus
                 onClick={(e) => e.stopPropagation()}
               />
