@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import type { CurrentWeatherResponse } from "../../types";
 import WEATHER_INFO_ITEMS from "./WEATHER_INFO_ITEMS";
 import { getTemperature, getWeatherIconUrl } from "../../utils";
@@ -33,12 +34,18 @@ const WeatherCard = ({
   data: CurrentWeatherResponse;
   isCurrentWeather: boolean;
 }) => {
+  const navigate = useNavigate();
   const { main, weather, name, wind } = data;
   const weatherIcon = weather[0]?.icon;
   const weatherDescription = weather[0]?.description || "";
 
+  const handleRouteDetail = () => navigate("/weather-detail", { state: data });
+
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4">
+    <div
+      className="bg-white rounded-lg shadow-lg p-4 cursor-pointer hover:shadow-xl transition-shadow"
+      onClick={handleRouteDetail}
+    >
       {isCurrentWeather && (
         <h2 className="text-lg font-medium mb-3 text-gray-500">현재 위치</h2>
       )}

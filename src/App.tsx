@@ -1,9 +1,11 @@
+import { Routes, Route } from "react-router-dom";
 import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
 import type { CurrentWeatherResponse } from "./shared/types/CurrentWeatherResponseType";
 import { Button, WeatherCard, WeatherCardSkeleton } from "./shared/ui";
+import WeatherDetailPage from "./pages/WeatherDetailPage";
 
-function App() {
+function HomePage() {
   const {
     position,
     isLocationLoading,
@@ -51,6 +53,15 @@ function App() {
         )}
       </div>
     </main>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/weather-detail" element={<WeatherDetailPage />} />
+    </Routes>
   );
 }
 
