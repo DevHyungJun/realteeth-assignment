@@ -94,6 +94,7 @@ const useBaseQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(
         params: {
           ...params,
           appid: import.meta.env.VITE_OPEN_WEATHER_MAP_API_KEY,
+          lang: "kr",
         },
       });
       return data;

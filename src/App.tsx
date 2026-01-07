@@ -1,17 +1,21 @@
 import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
+import type { CurrentWeatherResponse } from "./shared/types/CurrentWeatherResponseType";
 
 function App() {
   const { position, isLoading, error } = useGetLocation();
   const { latitude: lat, longitude: lon } = position || {};
-  const { data } = useBaseQuery(["weather", lat, lon], "/data/2.5/weather", {
-    params: {
-      lat,
-      lon,
-      lang: "kr",
-    },
-    enabled: !!lat && !!lon,
-  });
+  const { data } = useBaseQuery<CurrentWeatherResponse>(
+    ["weather", lat, lon],
+    "/data/2.5/weather",
+    {
+      params: {
+        lat,
+        lon,
+      },
+      enabled: !!lat && !!lon,
+    }
+  );
 
   console.log(data);
 
