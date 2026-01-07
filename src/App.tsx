@@ -1,12 +1,16 @@
 import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
 import type { CurrentWeatherResponse } from "./shared/types/CurrentWeatherResponseType";
-import WeatherCard from "./shared/ui/WeatherCard/WeatherCard";
+import { WeatherCard, WeatherCardSkeleton } from "./shared/ui";
 
 function App() {
-  const { position, isLoading, error } = useGetLocation();
+  const { position, isLocationLoading, locationError } = useGetLocation();
   const { latitude: lat, longitude: lon } = position || {};
-  const { data } = useBaseQuery<CurrentWeatherResponse>(
+  const {
+    data,
+    isLoading: isWeatherLoading,
+    isSuccess: isWeatherSuccess,
+  } = useBaseQuery<CurrentWeatherResponse>(
     ["weather", lat, lon],
     "/data/2.5/weather",
     {
@@ -22,13 +26,17 @@ function App() {
     <main className="min-h-[100dvh] bg-gray-50">
       <h1 className="sr-only">Weather App Main Page</h1>
       <div className="px-4 py-8">
-        {isLoading && (
-          <div className="mt-4 text-blue-600">위치 정보를 가져오는 중...</div>
+        {(isLocationLoading || isWeatherLoading) && !data && (
+          <WeatherCardSkeleton />
         )}
 
-        {error && <div className="mt-4 text-red-600">오류: {error}</div>}
+        {locationError && (
+          <div className="mt-4 text-red-600">오류: {locationError}</div>
+        )}
 
-        {data && <WeatherCard data={data} />}
+        {data && (
+          <WeatherCard data={data} isCurrentWeather={isWeatherSuccess} />
+        )}
       </div>
     </main>
   );

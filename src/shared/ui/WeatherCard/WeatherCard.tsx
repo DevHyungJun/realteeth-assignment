@@ -26,13 +26,22 @@ const WeatherInfoItem = ({
   );
 };
 
-const WeatherCard = ({ data }: { data: CurrentWeatherResponse }) => {
+const WeatherCard = ({
+  data,
+  isCurrentWeather,
+}: {
+  data: CurrentWeatherResponse;
+  isCurrentWeather: boolean;
+}) => {
   const { main, weather, name, wind } = data;
   const weatherIcon = weather[0]?.icon;
   const weatherDescription = weather[0]?.description || "";
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4">
+      {isCurrentWeather && (
+        <h2 className="text-lg font-medium mb-3 text-gray-500">현재 위치</h2>
+      )}
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-1">
           {weatherIcon && (
