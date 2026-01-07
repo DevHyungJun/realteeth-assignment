@@ -6,6 +6,7 @@ import InfoSection from "./InfoSection";
 import InfoGridItem from "./InfoGridItem";
 import WeatherDetailHeader from "./WeatherDetailHeader";
 import Weather5Days from "../../../shared/ui/Weather5Days/Weather5Days";
+import HourlyForecast from "../../../shared/ui/HourlyForecast/HourlyForecast";
 import {
   MAIN_GRID_ITEMS,
   WIND_ITEMS,
@@ -140,6 +141,12 @@ const MainView = ({ data, forecast5Days, district, favoriteName }: MainViewProps
               })}
             </div>
           </InfoSection>
+
+          <HourlyForecast
+            forecastData={forecast5Days}
+            currentDateTimestamp={data.dt}
+            timezone={timezone}
+          />
 
           <Weather5Days
             forecastData={forecast5Days}

@@ -151,7 +151,7 @@ const WeatherSearchResult = ({
     return (
       <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
         <p className="text-gray-600">
-          &quot;{searchTerm}&quot;에 대한 검색 결과를 찾을 수 없습니다.
+          해당 장소의 정보가 제공되지 않습니다.
         </p>
       </div>
     );
