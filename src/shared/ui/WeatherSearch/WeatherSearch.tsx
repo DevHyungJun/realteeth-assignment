@@ -46,6 +46,10 @@ const WeatherSearch = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    // input이 포커스되어 있고 값이 변경되면 자동완성 표시
+    if (inputRef.current === document.activeElement) {
+      setIsFocused(true);
+    }
   };
 
   const handleInputFocus = () => {
@@ -126,7 +130,7 @@ const WeatherSearch = ({
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
           onKeyDown={handleKeyDown}
-          placeholder="지역명을 입력하세요 (예: 서울, 부산)"
+          placeholder="지역명을 입력하세요 (도, 시, 구, 동..)"
           className="flex-1 px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         <button
@@ -142,7 +146,7 @@ const WeatherSearch = ({
       {isFocused && suggestions.length > 0 && (
         <div
           ref={suggestionsRef}
-          className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+          className="absolute z-10 left-[2.5rem] right-2 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
         >
           {suggestions.map((district, index) => (
             <button
