@@ -1,6 +1,7 @@
 import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
 import type { CurrentWeatherResponse } from "./shared/types/CurrentWeatherResponseType";
+import WeatherCard from "./shared/ui/WeatherCard/WeatherCard";
 
 function App() {
   const { position, isLoading, error } = useGetLocation();
@@ -17,10 +18,9 @@ function App() {
     }
   );
 
-  console.log(data);
-
   return (
-    <div className="min-h-[100dvh] bg-gray-50">
+    <main className="min-h-[100dvh] bg-gray-50">
+      <h1 className="sr-only">Weather App Main Page</h1>
       <div className="px-4 py-8">
         {isLoading && (
           <div className="mt-4 text-blue-600">위치 정보를 가져오는 중...</div>
@@ -28,19 +28,9 @@ function App() {
 
         {error && <div className="mt-4 text-red-600">오류: {error}</div>}
 
-        {position && (
-          <div className="mt-4 p-4 bg-white rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-2">현재 위치</h2>
-            <p className="text-gray-700">
-              위도: {position.latitude.toFixed(6)}
-            </p>
-            <p className="text-gray-700">
-              경도: {position.longitude.toFixed(6)}
-            </p>
-          </div>
-        )}
+        {data && <WeatherCard data={data} />}
       </div>
-    </div>
+    </main>
   );
 }
 
