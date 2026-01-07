@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
-import type { CurrentWeatherResponse } from "./shared/types/CurrentWeatherResponseType";
+import type { CurrentWeatherResponse } from "./shared/types";
 import {
   Button,
   WeatherCard,

@@ -1,1 +1,1 @@
-export * from "./CurrentWeatherResponseType";
+export * from "./weatherTypes";
