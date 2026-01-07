@@ -14,6 +14,13 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
+    proxy: {
+      '/api/vworld': {
+        target: 'https://api.vworld.kr',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/vworld/, '/req'),
+      },
+    },
   },
   test: {
     projects: [{

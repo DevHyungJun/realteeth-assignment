@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import useBaseQuery from "./shared/api/useBaseQuery";
 import useGetLocation from "./shared/hooks/useGetLocation";
+import { useGeocode } from "./shared/hooks/useGeocode";
 import type { CurrentWeatherResponse } from "./shared/types";
 import {
   Button,
@@ -14,7 +15,7 @@ import {
 import WeatherDetailPage from "./pages/WeatherDetailPage/WeatherDetailPage";
 
 function HomePage() {
-  const [searchCity, setSearchCity] = useState<string | null>(null);
+  const [searchAddress, setSearchAddress] = useState<string | null>(null);
   const {
     position,
     isLocationLoading,
@@ -34,22 +35,31 @@ function HomePage() {
         lat,
         lon,
       },
-      enabled: !!lat && !!lon && !searchCity,
+      enabled: !!lat && !!lon && !searchAddress,
     }
   );
 
+  // 주소를 좌표로 변환
+  const {
+    data: geocodeResult,
+    isLoading: isGeocoding,
+    error: geocodeError,
+  } = useGeocode(searchAddress);
+
+  // 좌표로 날씨 검색
   const {
     data: searchData,
     isLoading: isSearchLoading,
     error: searchError,
   } = useBaseQuery<CurrentWeatherResponse>(
-    ["weather-search", searchCity],
+    ["weather-search", geocodeResult?.lat, geocodeResult?.lon],
     "/data/2.5/weather",
     {
       params: {
-        q: searchCity,
+        lat: geocodeResult?.lat,
+        lon: geocodeResult?.lon,
       },
-      enabled: !!searchCity,
+      enabled: !!geocodeResult,
     }
   );
 
@@ -60,16 +70,24 @@ function HomePage() {
       ? new Error(String(searchError))
       : null;
 
+  const geocodeErrorAsError =
+    geocodeError instanceof Error
+      ? geocodeError
+      : geocodeError
+      ? new Error(String(geocodeError))
+      : null;
+
   const handleSelectDistrict = (district: string) => {
-    setSearchCity(district);
+    setSearchAddress(district);
   };
 
   const handleSearch = (district: string) => {
-    setSearchCity(district);
+    setSearchAddress(district);
   };
 
-  const showCurrentLocation = !searchCity && data && !isLocationLoading;
-  const showSearchResult = searchCity;
+  const showCurrentLocation = !searchAddress && data && !isLocationLoading;
+  const showSearchResult = searchAddress;
+  const isSearchProcessing = isGeocoding || (isSearchLoading && !searchData);
 
   return (
     <main className="min-h-[100dvh] bg-gray-50">
@@ -82,7 +100,7 @@ function HomePage() {
           />
         </div>
 
-        {!searchCity && (
+        {!searchAddress && (
           <Button
             onClick={refetchLocation}
             disabled={isLocationLoading}
@@ -96,17 +114,18 @@ function HomePage() {
         {showSearchResult && (
           <WeatherSearchResult
             data={searchData}
-            isLoading={isSearchLoading}
-            error={searchErrorAsError}
-            searchTerm={searchCity || ""}
+            isLoading={isSearchProcessing}
+            error={geocodeErrorAsError || searchErrorAsError}
+            searchTerm={searchAddress || ""}
           />
         )}
 
-        {!searchCity && (isLocationLoading || (isWeatherLoading && !data)) && (
-          <WeatherCardSkeleton />
-        )}
+        {!searchAddress &&
+          (isLocationLoading || (isWeatherLoading && !data)) && (
+            <WeatherCardSkeleton />
+          )}
 
-        {!searchCity && locationError && (
+        {!searchAddress && locationError && (
           <div className="mt-4 text-red-600">오류: {locationError}</div>
         )}
 
