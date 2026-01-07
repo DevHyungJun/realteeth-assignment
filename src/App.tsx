@@ -86,15 +86,14 @@ function HomePage() {
   return (
     <main className="min-h-[100dvh] bg-gray-50">
       <h1 className="sr-only">Weather App Main Page</h1>
+      <div className="sticky top-0 z-10 bg-gray-50 p-2">
+        <WeatherSearch
+          onSelectDistrict={handleSelectDistrict}
+          onSearch={handleSearch}
+          initialValue={searchAddress}
+        />
+      </div>
       <div className="px-4 py-8">
-        <div className="mb-6">
-          <WeatherSearch
-            onSelectDistrict={handleSelectDistrict}
-            onSearch={handleSearch}
-            initialValue={searchAddress}
-          />
-        </div>
-
         {showSearchResult && (
           <WeatherSearchResult
             results={results}
