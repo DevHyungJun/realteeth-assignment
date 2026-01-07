@@ -54,23 +54,27 @@ const WeatherDetailHeader = ({
         <div>
           {favoriteName ? (
             <>
-              <h1 className="text-3xl font-bold text-gray-800 mb-1">{favoriteName}</h1>
-              <p className="text-lg text-gray-500 mb-1">{name}</p>
+              <h1 className="text-lg sm:text-3xl font-bold text-gray-800 mb-1">
+                {favoriteName}
+              </h1>
+              <p className="text-base sm:text-lg text-gray-500 mb-1">{name}</p>
             </>
           ) : (
-            <h1 className="text-3xl font-bold text-gray-800">{name}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+              {name}
+            </h1>
           )}
           <p className="text-sm text-gray-500">
             {formatDate(timestamp, timezone)}
           </p>
         </div>
       </div>
-      <div className="mb-6">
-        <div className="text-5xl text-gray-800 font-light mb-2">
+      <div className="mb-6 pl-5">
+        <div className="text-4xl sm:text-5xl text-gray-800 font-light mb-2">
           {getTemperature(temperature)}°
         </div>
         {weatherDescription && (
-          <p className="text-lg text-gray-600 capitalize">
+          <p className="text-base sm:text-lg text-gray-600 capitalize">
             {weatherDescription}
           </p>
         )}
