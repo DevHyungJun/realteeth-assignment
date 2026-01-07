@@ -90,7 +90,12 @@ const useBaseQuery = <TQueryFnData, TError = unknown, TData = TQueryFnData>(
   return useQuery({
     queryKey,
     queryFn: async () => {
-      const { data } = await baseAxios.get<TQueryFnData>(url, { params });
+      const { data } = await baseAxios.get<TQueryFnData>(url, {
+        params: {
+          ...params,
+          appid: import.meta.env.VITE_OPEN_WEATHER_MAP_API_KEY,
+        },
+      });
       return data;
     },
     retry: 1,

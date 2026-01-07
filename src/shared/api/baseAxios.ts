@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const baseAxios = axios.create({
-  baseURL: `${process.env.OPEN_WHETHER_BASE_URL}?appid=${process.env.OPEN_WEATHER_MAP_API_KEY}`,
+  baseURL: import.meta.env.VITE_OPEN_WEATHER_BASE_URL,
   timeout: 5000,
 });
 
