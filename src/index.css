@@ -12,3 +12,23 @@
 body {
   font-family: "Pretendard", sans-serif;
 }
+
+/* 웹킷 기반 브라우저 (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #b0b5c1;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #;
+}
+
+/* 스크롤바 상/하단 화살표 숨기기 */
+*::-webkit-scrollbar-button {
+  display: none;
+}
