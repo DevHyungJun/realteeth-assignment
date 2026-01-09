@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import type { CurrentWeatherResponse } from "../../types";
-import { getTemperature, getWeatherIconUrl } from "../../utils";
 import WeatherCardSkeleton from "../WeatherCardSkeleton/WeatherCardSkeleton";
+import WeatherCard from "../WeatherCard/WeatherCard";
 import type { WeatherSearchItem } from "../../hooks/useMultipleWeatherSearch";
-import FavoriteButton from "../FavoriteButton/FavoriteButton";
 import {
   useFavoritesStore,
   generateFavoriteId,
@@ -34,10 +33,6 @@ const WeatherSearchResultItem = ({
     return null;
   }
 
-  const { main, weather, wind } = data;
-  const weatherIcon = weather[0]?.icon;
-  const weatherDescription = weather[0]?.description || "";
-
   // 즐겨찾기에 등록되어 있는지 확인
   const favoriteId = generateFavoriteId(data);
   const favorite = getFavoriteById(favoriteId);
@@ -53,73 +48,27 @@ const WeatherSearchResultItem = ({
       ? favorite.district
       : null;
 
-  const handleClick = () => {
-    // district와 favoriteName 정보를 함께 전달
-    navigate("/weather-detail", {
-      state: {
-        ...data,
-        district: favorite?.district || district,
-        favoriteName:
-          favorite && favorite.name !== (favorite.district || data.name)
-            ? favorite.name
-            : undefined,
-      },
-    });
-  };
   return (
-    <div
-      className="bg-white rounded-lg shadow-lg p-4 cursor-pointer hover:shadow-xl transition-shadow relative"
-      onClick={handleClick}
-    >
-      <div
-        className="absolute top-4 right-4"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <FavoriteButton data={data} district={district} />
-      </div>
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1">
-          {weatherIcon && (
-            <img
-              src={getWeatherIconUrl(weatherIcon)}
-              alt={weatherDescription}
-              className="w-12 h-12"
-            />
-          )}
-          <div className="text-2xl sm:text-3xl text-gray-800 font-light">
-            {getTemperature(main.temp)}°
-          </div>
-        </div>
-        <div className="flex-1 pr-[28px]">
-          <h2 className="text-lg sm:text-xl font-bold">{displayName}</h2>
-          {displayAddress && (
-            <p className="text-xs sm:text-sm text-gray-500 mt-1">
-              {displayAddress}
-            </p>
-          )}
-          {weatherDescription && (
-            <p className="text-xs sm:text-sm text-gray-600 capitalize mt-1">
-              {weatherDescription}
-            </p>
-          )}
-        </div>
-      </div>
-
-      <div className="flex items-center gap-2 flex-wrap text-sm mt-3">
-        <span className="text-gray-500">체감온도</span>
-        <span className="text-gray-800 font-semibold">
-          {getTemperature(main.feels_like)}°
-        </span>
-        <span className="w-px h-4 bg-gray-300" />
-        <span className="text-gray-500">습도</span>
-        <span className="text-gray-800 font-semibold">{main.humidity}%</span>
-        <span className="w-px h-4 bg-gray-300" />
-        <span className="text-gray-500">풍속</span>
-        <span className="text-gray-800 font-semibold">
-          {wind.speed.toFixed(1)} m/s
-        </span>
-      </div>
-    </div>
+    <WeatherCard
+      data={data}
+      displayAddress={district}
+      variant="compact"
+      displayName={displayName}
+      displayDistrict={displayAddress}
+      weatherDescriptionPosition="below"
+      onClick={() => {
+        navigate("/weather-detail", {
+          state: {
+            ...data,
+            district: favorite?.district || district,
+            favoriteName:
+              favorite && favorite.name !== (favorite.district || data.name)
+                ? favorite.name
+                : undefined,
+          },
+        });
+      }}
+    />
   );
 };
 

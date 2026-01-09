@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { CurrentWeatherResponse } from "../../types";
 import WEATHER_INFO_ITEMS from "./WEATHER_INFO_ITEMS";
@@ -32,13 +33,33 @@ const WeatherInfoItem = ({
   );
 };
 
+const COMPACT_WEATHER_INFO_ITEMS = WEATHER_INFO_ITEMS.filter(
+  (item) => item.label === "체감" || item.label === "습도" || item.label === "풍속"
+);
+
+type WeatherCardProps = {
+  data: CurrentWeatherResponse;
+  displayAddress?: string | null;
+  variant?: "full" | "compact";
+  displayName?: string;
+  displayDistrict?: string | null;
+  editableName?: boolean;
+  onNameChange?: (newName: string) => void;
+  weatherDescriptionPosition?: "below" | "separate";
+  onClick?: () => void;
+};
+
 const WeatherCard = ({
   data,
   displayAddress,
-}: {
-  data: CurrentWeatherResponse;
-  displayAddress?: string | null;
-}) => {
+  variant = "full",
+  displayName: propDisplayName,
+  displayDistrict: propDisplayDistrict,
+  editableName = false,
+  onNameChange,
+  weatherDescriptionPosition = "separate",
+  onClick: propOnClick,
+}: WeatherCardProps) => {
   const navigate = useNavigate();
   const { getFavoriteById } = useFavoritesStore();
   const { main, weather, name, wind } = data;
@@ -51,17 +72,38 @@ const WeatherCard = ({
 
   // 표시할 이름과 주소 결정
   const baseAddress = displayAddress || name;
-  const displayName = favorite
-    ? favorite.name !== (favorite.district || name)
-      ? favorite.name
-      : baseAddress
-    : baseAddress;
-  const displayDistrict =
-    favorite && favorite.district && favorite.name !== favorite.district
-      ? favorite.district
-      : displayAddress;
+  const computedDisplayName =
+    propDisplayName !== undefined
+      ? propDisplayName
+      : favorite
+        ? favorite.name !== (favorite.district || name)
+          ? favorite.name
+          : baseAddress
+        : baseAddress;
+  const computedDisplayDistrict =
+    propDisplayDistrict !== undefined
+      ? propDisplayDistrict
+      : favorite && favorite.district && favorite.name !== favorite.district
+        ? favorite.district
+        : displayAddress;
+
+  // 이름 편집 상태
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState(computedDisplayName);
+
+  // computedDisplayName이 변경되면 editName도 업데이트
+  useEffect(() => {
+    if (!isEditing) {
+      setEditName(computedDisplayName);
+    }
+  }, [computedDisplayName, isEditing]);
 
   const handleRouteDetail = () => {
+    if (propOnClick) {
+      propOnClick();
+      return;
+    }
+
     // 상세 페이지로 이동 (쿼리 스트링 없이)
     // 브라우저 히스토리에 이전 URL이 남아있어 뒤로가기 시 자동으로 복원됨
     navigate("/weather-detail", {
@@ -76,10 +118,43 @@ const WeatherCard = ({
     });
   };
 
+  const handleClick = () => {
+    if (!isEditing) {
+      handleRouteDetail();
+    }
+  };
+
+  const handleNameClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!isEditing && editableName) {
+      setIsEditing(true);
+    }
+  };
+
+  const handleNameBlur = () => {
+    if (editName.trim() && editName.trim() !== computedDisplayName && onNameChange) {
+      onNameChange(editName.trim());
+    } else {
+      setEditName(computedDisplayName);
+    }
+    setIsEditing(false);
+  };
+
+  const handleNameKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.currentTarget.blur();
+    } else if (e.key === "Escape") {
+      setEditName(computedDisplayName);
+      setIsEditing(false);
+    }
+  };
+
+  const weatherInfoItems = variant === "compact" ? COMPACT_WEATHER_INFO_ITEMS : WEATHER_INFO_ITEMS;
+
   return (
     <div
       className="bg-white rounded-lg shadow-lg p-4 cursor-pointer hover:shadow-xl transition-shadow relative"
-      onClick={handleRouteDetail}
+      onClick={handleClick}
     >
       <div
         className="absolute top-4 right-4"
@@ -100,28 +175,57 @@ const WeatherCard = ({
             {getTemperature(main.temp)}°
           </div>
         </div>
-        <div className="flex-1 pr-[28px]">
-          <h2 className="text-lg sm:text-xl font-bold">{displayName}</h2>
-          {displayDistrict && displayDistrict !== displayName && (
-            <p className="text-sm text-gray-500 mt-1">{displayDistrict}</p>
+        <div className="flex-1 min-w-0">
+          <div className="inline-block">
+            {isEditing ? (
+              <input
+                type="text"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+                onBlur={handleNameBlur}
+                onKeyDown={handleNameKeyDown}
+                className="text-lg sm:text-xl font-bold border-b-2 border-blue-500 focus:outline-none w-full min-w-[100px] pr-[28px]"
+                autoFocus
+                onClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              <h2
+                className={`text-lg sm:text-xl font-bold ${
+                  editableName ? "hover:text-blue-600 transition-colors cursor-text" : ""
+                } inline-block pr-[28px]`}
+                onClick={handleNameClick}
+              >
+                {computedDisplayName}
+              </h2>
+            )}
+          </div>
+          {computedDisplayDistrict && computedDisplayDistrict !== computedDisplayName && (
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+              {computedDisplayDistrict}
+            </p>
+          )}
+          {weatherDescription && weatherDescriptionPosition === "below" && (
+            <p className="text-xs sm:text-sm text-gray-600 capitalize mt-1">
+              {weatherDescription}
+            </p>
           )}
         </div>
       </div>
 
-      {weatherDescription && (
+      {weatherDescription && weatherDescriptionPosition === "separate" && (
         <p className="text-sm text-gray-600 capitalize ml-auto mb-3">
           {weatherDescription}
         </p>
       )}
 
-      <div className="flex items-center gap-2 flex-wrap">
-        {WEATHER_INFO_ITEMS.map((item, index) => (
+      <div className={`flex items-center gap-2 flex-wrap ${variant === "compact" ? "text-sm mt-3" : ""}`}>
+        {weatherInfoItems.map((item, index) => (
           <WeatherInfoItem
             key={item.label}
             label={item.label}
             value={item.getValue(main, wind)}
             valueColor={item.valueColor}
-            showDivider={index !== WEATHER_INFO_ITEMS.length - 1}
+            showDivider={index !== weatherInfoItems.length - 1}
           />
         ))}
       </div>
