@@ -144,7 +144,6 @@ const MainView = ({ data, forecast5Days, district, favoriteName }: MainViewProps
 
           <HourlyForecast
             forecastData={forecast5Days}
-            currentDateTimestamp={data.dt}
             timezone={timezone}
           />
 
