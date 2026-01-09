@@ -4,17 +4,12 @@ import { process5DayForecast } from "../../utils/process5DayForecast";
 
 type Weather5DaysProps = {
   forecastData: Forecast5DayResponse | undefined;
-  currentDateTimestamp: number;
 };
 
 const Weather5Days = ({
   forecastData,
-  currentDateTimestamp,
 }: Weather5DaysProps) => {
-  const dailyForecasts = process5DayForecast(
-    forecastData,
-    currentDateTimestamp
-  );
+  const dailyForecasts = process5DayForecast(forecastData);
 
   if (dailyForecasts.length === 0) return null;
 

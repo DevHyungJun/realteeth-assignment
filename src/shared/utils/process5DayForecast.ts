@@ -18,9 +18,13 @@ export type DailyForecast = {
 
 /**
  * 다음날부터 5일간의 날짜 범위를 계산합니다.
+ * 현재 시간을 기준으로 계산합니다 (즐겨찾기 데이터의 오래된 타임스탬프가 아닌 실제 현재 시간 사용).
  */
-function calculateDateRange(currentDateTimestamp: number) {
-  const currentDate = new Date(currentDateTimestamp * 1000);
+function calculateDateRange() {
+  // 현재 시간을 기준으로 계산 (즐겨찾기 데이터의 오래된 타임스탬프 사용하지 않음)
+  const now = new Date();
+  const currentDate = new Date(now.getTime());
+  
   const nextDay = new Date(currentDate);
   nextDay.setUTCDate(nextDay.getUTCDate() + 1);
   nextDay.setUTCHours(0, 0, 0, 0);
@@ -86,15 +90,14 @@ function formatDateLabel(dateKey: string): string {
 
 /**
  * 5일 예보 데이터를 처리하여 일별 예보 배열을 반환합니다.
+ * 현재 시간을 기준으로 다음날부터 5일간의 예보를 표시합니다.
  */
 export function process5DayForecast(
-  forecastData: Forecast5DayResponse | undefined,
-  currentDateTimestamp: number
+  forecastData: Forecast5DayResponse | undefined
 ): DailyForecast[] {
   if (!forecastData?.list) return [];
 
-  const { nextDayDateStr, fiveDaysLaterDateStr } =
-    calculateDateRange(currentDateTimestamp);
+  const { nextDayDateStr, fiveDaysLaterDateStr } = calculateDateRange();
 
   const filteredForecasts = filterForecastsByDateRange(
     forecastData.list,

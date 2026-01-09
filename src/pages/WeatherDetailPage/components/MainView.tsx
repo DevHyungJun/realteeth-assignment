@@ -149,7 +149,6 @@ const MainView = ({ data, forecast5Days, district, favoriteName }: MainViewProps
 
           <Weather5Days
             forecastData={forecast5Days}
-            currentDateTimestamp={data.dt}
           />
         </div>
       </div>
