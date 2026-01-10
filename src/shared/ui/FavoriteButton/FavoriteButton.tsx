@@ -3,6 +3,7 @@ import {
   useFavoritesStore,
   generateFavoriteId,
 } from "../../config/favoritesStore";
+import { useToast } from "../../context/ToastContext";
 import type { CurrentWeatherResponse } from "../../types";
 
 type FavoriteButtonProps = {
@@ -17,6 +18,7 @@ const FavoriteButton = ({
   className = "",
 }: FavoriteButtonProps) => {
   const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
+  const { showToast } = useToast();
   const favoriteId = generateFavoriteId(data);
   const isFav = isFavorite(favoriteId);
 
@@ -27,7 +29,7 @@ const FavoriteButton = ({
     } else {
       const success = addFavorite(data, district);
       if (!success) {
-        alert("즐겨찾기는 최대 6개까지 추가할 수 있습니다.");
+        showToast("즐겨찾기는 최대 6개까지 추가할 수 있습니다.", "warning");
       }
     }
   };
