@@ -3,7 +3,7 @@ import { Button } from "../../../shared/ui";
 import { getWeatherIconUrl } from "../../../shared/utils";
 import { getTemperature } from "../../../shared/utils";
 import { formatDate } from "../../../shared/utils";
-import FavoriteButton from "../../../shared/ui/FavoriteButton/FavoriteButton";
+import { FavoriteButton } from "../../../shared/domains/favorite";
 import type { CurrentWeatherResponse } from "../../../shared/types";
 
 type WeatherDetailHeaderProps = {

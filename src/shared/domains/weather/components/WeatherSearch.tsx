@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { filterDistricts } from "../../utils/filterDistricts";
-import BackIcon from "../Icons/BackIcon";
-import SearchIcon from "../Icons/SearchIcon";
-import ClearIcon from "../Icons/ClearIcon";
+import { filterDistricts } from "../../../utils";
+import BackIcon from "../../../ui/Icons/BackIcon";
+import SearchIcon from "../../../ui/Icons/SearchIcon";
+import ClearIcon from "../../../ui/Icons/ClearIcon";
 
 type WeatherSearchProps = {
   onSelectDistrict: (district: string) => void;

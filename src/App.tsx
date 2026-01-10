@@ -5,16 +5,14 @@ import useGetLocation from "./shared/hooks/useGetLocation";
 import { useReverseGeocode } from "./shared/hooks/useReverseGeocode";
 import { useMultipleWeatherSearch } from "./shared/hooks/useMultipleWeatherSearch";
 import type { CurrentWeatherResponse } from "./shared/types";
+import { Button, LocationIcon, RefreshIcon } from "./shared/ui";
 import {
-  Button,
   WeatherCard,
   WeatherCardSkeleton,
-  LocationIcon,
-  RefreshIcon,
   WeatherSearch,
   WeatherSearchResult,
-} from "./shared/ui";
-import FavoriteList from "./shared/ui/FavoriteList/FavoriteList";
+} from "./shared/domains/weather";
+import { FavoriteList } from "./shared/domains/favorite";
 import WeatherDetailPage from "./pages/WeatherDetailPage/WeatherDetailPage";
 
 const SEARCH_QUERY_KEY = "q";

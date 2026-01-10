@@ -1,10 +1,10 @@
-import StarIcon from "../Icons/StarIcon";
+import StarIcon from "../../../ui/Icons/StarIcon";
 import {
   useFavoritesStore,
   generateFavoriteId,
-} from "../../config/favoritesStore";
-import { useToast } from "../../context/ToastContext";
-import type { CurrentWeatherResponse } from "../../types";
+} from "../../../config/favoritesStore";
+import { useToast } from "../../../context/ToastContext";
+import type { CurrentWeatherResponse } from "../../../types";
 
 type FavoriteButtonProps = {
   data: CurrentWeatherResponse;

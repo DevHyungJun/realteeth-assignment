@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useFavoritesStore } from "../../config/favoritesStore";
-import StarIcon from "../Icons/StarIcon";
-import WeatherCard from "../WeatherCard/WeatherCard";
+import { useFavoritesStore } from "../../../config/favoritesStore";
+import StarIcon from "../../../ui/Icons/StarIcon";
+import { WeatherCard } from "../../weather";
 
 const FavoriteList = () => {
   const { favorites, updateFavoriteName } = useFavoritesStore();

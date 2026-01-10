@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import type { CurrentWeatherResponse } from "../../types";
+import type { CurrentWeatherResponse } from "../../../../types";
 import WEATHER_INFO_ITEMS from "./WEATHER_INFO_ITEMS";
-import { getTemperature, getWeatherIconUrl } from "../../utils";
-import FavoriteButton from "../FavoriteButton/FavoriteButton";
+import { getTemperature, getWeatherIconUrl } from "../../../../utils";
+import { FavoriteButton } from "../../../favorite";
 import {
   useFavoritesStore,
   generateFavoriteId,
-} from "../../config/favoritesStore";
+} from "../../../../config/favoritesStore";
 
 type WeatherInfoItemProps = {
   label: string;

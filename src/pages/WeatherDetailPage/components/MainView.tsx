@@ -5,8 +5,7 @@ import type {
 import InfoSection from "./InfoSection";
 import InfoGridItem from "./InfoGridItem";
 import WeatherDetailHeader from "./WeatherDetailHeader";
-import Weather5Days from "../../../shared/ui/Weather5Days/Weather5Days";
-import HourlyForecast from "../../../shared/ui/HourlyForecast/HourlyForecast";
+import { Weather5Days, HourlyForecast } from "../../../shared/domains/weather";
 import {
   MAIN_GRID_ITEMS,
   WIND_ITEMS,

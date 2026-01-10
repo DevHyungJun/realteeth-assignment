@@ -1,5 +1,5 @@
-import type { Main, Wind } from "../../types";
-import { getTemperature } from "../../utils";
+import type { Main, Wind } from "../../../../types";
+import { getTemperature } from "../../../../utils";
 
 type WeatherInfoItemConfig = {
   label: string;

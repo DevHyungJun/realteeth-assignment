@@ -1,6 +1,5 @@
-import type { Forecast5DayResponse } from "../../types";
-import { getWeatherIconUrl } from "../../utils";
-import { process5DayForecast } from "../../utils/process5DayForecast";
+import type { Forecast5DayResponse } from "../../../types";
+import { getWeatherIconUrl, process5DayForecast } from "../../../utils";
 
 type Weather5DaysProps = {
   forecastData: Forecast5DayResponse | undefined;

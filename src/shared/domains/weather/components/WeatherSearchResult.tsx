@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import type { CurrentWeatherResponse } from "../../types";
-import WeatherCardSkeleton from "../WeatherCardSkeleton/WeatherCardSkeleton";
-import WeatherCard from "../WeatherCard/WeatherCard";
-import type { WeatherSearchItem } from "../../hooks/useMultipleWeatherSearch";
+import type { CurrentWeatherResponse } from "../../../types";
+import WeatherCardSkeleton from "./WeatherCardSkeleton";
+import WeatherCard from "./WeatherCard/WeatherCard";
+import type { WeatherSearchItem } from "../../../hooks/useMultipleWeatherSearch";
 import {
   useFavoritesStore,
   generateFavoriteId,
-} from "../../config/favoritesStore";
+} from "../../../config/favoritesStore";
 
 type WeatherSearchResultProps = {
   results: WeatherSearchItem[];
