@@ -28,16 +28,13 @@ const WeatherSearchResultItem = ({
   const navigate = useNavigate();
   const { getFavoriteById } = useFavoritesStore();
 
-  // 에러가 있거나 데이터가 없으면 렌더링하지 않음
   if (error || !data) {
     return null;
   }
 
-  // 즐겨찾기에 등록되어 있는지 확인
   const favoriteId = generateFavoriteId(data);
   const favorite = getFavoriteById(favoriteId);
 
-  // 표시할 이름과 주소 결정
   const displayName = favorite
     ? favorite.name !== (favorite.district || data.name)
       ? favorite.name
@@ -80,9 +77,9 @@ const WeatherSearchResult = ({
   if (isLoading) {
     return (
       <div className="mt-4 space-y-4">
-        <WeatherCardSkeleton />
-        <WeatherCardSkeleton />
-        <WeatherCardSkeleton />
+        {Array.from({ length: 4 }).map((_, index) => (
+          <WeatherCardSkeleton key={index} />
+        ))}
       </div>
     );
   }
@@ -97,7 +94,6 @@ const WeatherSearchResult = ({
     );
   }
 
-  // 에러가 없고 데이터가 있는 결과만 필터링
   const validResults = results.filter((item) => item.data && !item.error);
 
   if (validResults.length === 0) {
