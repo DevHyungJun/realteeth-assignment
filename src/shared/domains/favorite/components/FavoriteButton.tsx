@@ -5,6 +5,7 @@ import {
 } from "../../../config/favoritesStore";
 import { useToast } from "../../../context/ToastContext";
 import type { CurrentWeatherResponse } from "../../../types";
+import type { MouseEvent } from "react";
 
 type FavoriteButtonProps = {
   data: CurrentWeatherResponse;
@@ -22,8 +23,8 @@ const FavoriteButton = ({
   const favoriteId = generateFavoriteId(data);
   const isFav = isFavorite(favoriteId);
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // 부모 요소의 클릭 이벤트 방지
+  const handleClick = (e: MouseEvent) => {
+    e.stopPropagation();
     if (isFav) {
       removeFavorite(favoriteId);
     } else {
@@ -47,4 +48,3 @@ const FavoriteButton = ({
 };
 
 export default FavoriteButton;
-

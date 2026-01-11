@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type KeyboardEvent } from "react";
+import { useForm } from "react-hook-form";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { filterDistricts } from "../../../utils";
 import BackIcon from "../../../ui/Icons/BackIcon";
@@ -11,6 +12,10 @@ type WeatherSearchProps = {
   initialValue?: string | null;
 };
 
+type FormData = {
+  searchTerm: string;
+};
+
 const WeatherSearch = ({
   onSelectDistrict,
   onSearch,
@@ -20,13 +25,26 @@ const WeatherSearch = ({
   const navigate = useNavigate();
   const hasQueryParam = !!searchParams.get("q");
 
-  const [searchTerm, setSearchTerm] = useState(initialValue || "");
+  const { register, handleSubmit, watch, setValue, reset } = useForm<FormData>({
+    defaultValues: {
+      searchTerm: initialValue || "",
+    },
+  });
+
+  const searchTerm = watch("searchTerm");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
+  // 초기값이 변경되면 form 값 업데이트
+  useEffect(() => {
+    if (initialValue !== undefined) {
+      setValue("searchTerm", initialValue || "");
+    }
+  }, [initialValue, setValue]);
+
+  // searchTerm 변경 시 suggestions 업데이트
   useEffect(() => {
     if (searchTerm.trim()) {
       const filtered = filterDistricts(searchTerm, 10);
@@ -37,57 +55,29 @@ const WeatherSearch = ({
     setSelectedIndex(-1);
   }, [searchTerm]);
 
-  // 초기값이 변경되면 input 값 업데이트
-  useEffect(() => {
-    if (initialValue !== undefined && initialValue !== searchTerm) {
-      setSearchTerm(initialValue || "");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialValue]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-    // input이 포커스되어 있고 값이 변경되면 자동완성 표시
-    if (inputRef.current === document.activeElement) {
-      setIsFocused(true);
-    }
-  };
-
-  const handleInputFocus = () => {
-    setIsFocused(true);
-  };
-
-  const handleInputBlur = () => {
-    // 클릭 이벤트가 먼저 처리되도록 약간의 지연
-    setTimeout(() => {
-      setIsFocused(false);
-    }, 200);
-  };
-
   const handleSuggestionClick = (district: string) => {
-    setSearchTerm(district);
+    setValue("searchTerm", district);
     setSuggestions([]);
     setIsFocused(false);
     onSelectDistrict(district);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (searchTerm.trim()) {
-      onSearch(searchTerm.trim());
+  const onSubmit = (data: FormData) => {
+    const trimmedValue = data.searchTerm.trim();
+    if (trimmedValue) {
+      onSearch(trimmedValue);
       setSuggestions([]);
       setIsFocused(false);
     }
   };
 
   const handleClear = () => {
-    setSearchTerm("");
+    reset({ searchTerm: "" });
     setSuggestions([]);
     setIsFocused(false);
-    inputRef.current?.focus();
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (suggestions.length === 0) return;
 
     if (e.key === "ArrowDown") {
@@ -118,7 +108,7 @@ const WeatherSearch = ({
   return (
     <div className="relative w-full">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="relative flex items-center gap-2"
       >
         <button
@@ -132,12 +122,9 @@ const WeatherSearch = ({
         </button>
         <div className="relative flex-1">
           <input
-            ref={inputRef}
+            {...register("searchTerm")}
             type="text"
-            value={searchTerm}
-            onChange={handleInputChange}
-            onFocus={handleInputFocus}
-            onBlur={handleInputBlur}
+            onFocus={() => setIsFocused(true)}
             onKeyDown={handleKeyDown}
             placeholder="지역명을 입력하세요 (도, 시, 구, 동..)"
             className="w-full px-4 py-2 pr-20 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
