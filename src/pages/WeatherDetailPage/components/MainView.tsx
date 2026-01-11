@@ -2,17 +2,16 @@ import type {
   CurrentWeatherResponse,
   Forecast5DayResponse,
 } from "../../../shared/types";
-import InfoSection from "./InfoSection";
-import InfoGridItem from "./InfoGridItem";
 import WeatherDetailHeader from "./WeatherDetailHeader";
 import { Weather5Days, HourlyForecast } from "../../../shared/domains/weather";
 import {
-  MAIN_GRID_ITEMS,
-  WIND_ITEMS,
-  PRECIPITATION_ITEMS,
-  SUNRISE_SUNSET_ITEMS,
-  ADDITIONAL_INFO_ITEMS,
-} from "../WEATHER_DETAIL_CONFIG";
+  MainGrid,
+  WindSection,
+  CloudsSection,
+  PrecipitationSection,
+  SunriseSunsetSection,
+  AdditionalInfoSection,
+} from "./sections";
 
 type MainViewProps = {
   data: CurrentWeatherResponse;
@@ -21,13 +20,17 @@ type MainViewProps = {
   favoriteName?: string;
 };
 
-const MainView = ({ data, forecast5Days, district, favoriteName }: MainViewProps) => {
+const MainView = ({
+  data,
+  forecast5Days,
+  district,
+  favoriteName,
+}: MainViewProps) => {
   const { weather, main, clouds, dt, timezone, name } = data;
 
   const weatherIcon = weather[0]?.icon;
   const weatherDescription = weather[0]?.description || "";
 
-  // 표시할 이름: district가 있으면 district 사용, 없으면 name 사용
   const displayName = district || name;
 
   return (
@@ -46,109 +49,21 @@ const MainView = ({ data, forecast5Days, district, favoriteName }: MainViewProps
             favoriteName={favoriteName}
           />
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-            {MAIN_GRID_ITEMS.map((item) => {
-              const value = item.getValue(data);
-              if (!value) return null;
-              return (
-                <div key={item.label} className="bg-gray-50 rounded-lg p-4">
-                  <InfoGridItem
-                    label={item.label}
-                    value={value}
-                    valueColor={item.valueColor}
-                    size={item.size}
-                  />
-                </div>
-              );
-            })}
-          </div>
+          <MainGrid data={data} />
 
-          <InfoSection title="바람">
-            <div className="grid grid-cols-2 gap-4">
-              {WIND_ITEMS.map((item) => {
-                const value = item.getValue(data);
-                if (!value) return null;
-                return (
-                  <InfoGridItem
-                    key={item.label}
-                    label={item.label}
-                    value={value}
-                    valueColor={item.valueColor}
-                    size={item.size}
-                  />
-                );
-              })}
-            </div>
-          </InfoSection>
+          <WindSection data={data} />
 
-          <InfoSection title="구름">
-            <p className="text-lg font-semibold text-gray-800">{clouds.all}%</p>
-          </InfoSection>
+          <CloudsSection cloudsPercentage={clouds.all} />
 
-          {(data.rain || data.snow) && (
-            <InfoSection title="강수량">
-              <div className="grid grid-cols-2 gap-4">
-                {PRECIPITATION_ITEMS.map((item) => {
-                  const value = item.getValue(data);
-                  if (!value) return null;
-                  return (
-                    <InfoGridItem
-                      key={item.label}
-                      label={item.label}
-                      value={value}
-                      valueColor={item.valueColor}
-                      size={item.size}
-                    />
-                  );
-                })}
-              </div>
-            </InfoSection>
-          )}
+          <PrecipitationSection data={data} />
 
-          <InfoSection title="일출/일몰">
-            <div className="grid grid-cols-2 gap-4">
-              {SUNRISE_SUNSET_ITEMS.map((item) => {
-                const value = item.getValue(data);
-                if (!value) return null;
-                return (
-                  <InfoGridItem
-                    key={item.label}
-                    label={item.label}
-                    value={value}
-                    valueColor={item.valueColor}
-                    size={item.size}
-                  />
-                );
-              })}
-            </div>
-          </InfoSection>
+          <SunriseSunsetSection data={data} />
 
-          <InfoSection title="추가 정보">
-            <div className="grid grid-cols-2 gap-4">
-              {ADDITIONAL_INFO_ITEMS.map((item) => {
-                const value = item.getValue(data);
-                if (!value) return null;
-                return (
-                  <InfoGridItem
-                    key={item.label}
-                    label={item.label}
-                    value={value}
-                    valueColor={item.valueColor}
-                    size={item.size}
-                  />
-                );
-              })}
-            </div>
-          </InfoSection>
+          <AdditionalInfoSection data={data} />
 
-          <HourlyForecast
-            forecastData={forecast5Days}
-            timezone={timezone}
-          />
+          <HourlyForecast forecastData={forecast5Days} timezone={timezone} />
 
-          <Weather5Days
-            forecastData={forecast5Days}
-          />
+          <Weather5Days forecastData={forecast5Days} />
         </div>
       </div>
     </div>

@@ -17,13 +17,9 @@ const WeatherDetailPage = () => {
   const district = (state as WeatherDetailState)?.district;
   const favoriteName = (state as WeatherDetailState)?.favoriteName;
 
-  if (!data) {
-    return <EmptyDetail />;
-  }
-
-  const { lat, lon } = data.coord;
+  const { lat, lon } = data?.coord || { lat: 0, lon: 0 };
   const { data: weather5Days } = useBaseQuery<Forecast5DayResponse>(
-    ["weather-forecast", data.coord.lat, data.coord.lon],
+    ["weather-forecast", lat, lon],
     "/data/2.5/forecast",
     {
       params: {
@@ -35,7 +31,16 @@ const WeatherDetailPage = () => {
 
   return (
     <>
-      <MainView data={data} forecast5Days={weather5Days} district={district} favoriteName={favoriteName} />
+      {data ? (
+        <MainView
+          data={data}
+          forecast5Days={weather5Days}
+          district={district}
+          favoriteName={favoriteName}
+        />
+      ) : (
+        <EmptyDetail />
+      )}
     </>
   );
 };
