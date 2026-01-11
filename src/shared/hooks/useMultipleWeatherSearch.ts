@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useQueries } from "@tanstack/react-query";
 import type { CurrentWeatherResponse } from "../types";
 import { filterDistricts } from "../utils/filterDistricts";
@@ -5,6 +6,7 @@ import vworldAxios from "../api/vworldAxios";
 import baseAxios from "../api/baseAxios";
 import type { VWorldGeocoderResponse } from "../types/vworldTypes";
 import { WEATHER_CACHE_TIME } from "../config/cacheTimes";
+import { useToast } from "../context/ToastContext";
 
 export type WeatherSearchItem = {
   district: string;
@@ -18,6 +20,8 @@ export type WeatherSearchItem = {
  * 검색어로 여러 지역을 찾아 각각의 날씨를 조회하는 훅
  */
 export function useMultipleWeatherSearch(searchTerm: string | null) {
+  const { showToast } = useToast();
+
   // 검색어로 여러 지역 찾기 (최대 5개)
   const matchedDistricts = searchTerm
     ? filterDistricts(searchTerm, 5).map((district) => district.trim())
@@ -109,6 +113,17 @@ export function useMultipleWeatherSearch(searchTerm: string | null) {
       staleTime: WEATHER_CACHE_TIME, // 날씨 데이터 캐싱 시간 사용
     })),
   });
+
+  // 에러 발생 시 토스트 표시
+  useEffect(() => {
+    weatherQueries.forEach((query) => {
+      if (query.error) {
+        const errorMessage =
+          query.error.message || "날씨 정보를 가져오는 중 오류가 발생했습니다.";
+        showToast(errorMessage, "error");
+      }
+    });
+  }, [weatherQueries.map((q) => q.error?.message).join(","), showToast]);
 
   // 결과를 WeatherSearchItem 배열로 변환
   const results: WeatherSearchItem[] = matchedDistricts.map(

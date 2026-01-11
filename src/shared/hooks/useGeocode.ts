@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import vworldAxios from "../api/vworldAxios";
 import type { VWorldGeocoderResponse } from "../types/vworldTypes";
 import { GEOCODE_CACHE_TIME } from "../config/cacheTimes";
+import { useToast } from "../context/ToastContext";
 
 type GeocodeResult = {
   lat: number;
@@ -12,7 +14,9 @@ type GeocodeResult = {
  * 주소를 좌표로 변환하는 훅
  */
 export function useGeocode(address: string | null) {
-  return useQuery<GeocodeResult, Error>({
+  const { showToast } = useToast();
+  
+  const queryResult = useQuery<GeocodeResult, Error>({
     queryKey: ["geocode", address],
     queryFn: async () => {
       if (!address) return null;
@@ -65,4 +69,13 @@ export function useGeocode(address: string | null) {
     refetchOnWindowFocus: false,
     staleTime: GEOCODE_CACHE_TIME,
   });
+
+  useEffect(() => {
+    if (queryResult.error) {
+      const errorMessage = queryResult.error.message || "주소를 좌표로 변환하는 중 오류가 발생했습니다.";
+      showToast(errorMessage, "error");
+    }
+  }, [queryResult.error, showToast]);
+
+  return queryResult;
 }
