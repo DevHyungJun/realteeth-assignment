@@ -34,14 +34,8 @@ export function useMultipleWeatherSearch(searchTerm: string | null) {
         }
 
         // 1. 주소를 좌표로 변환
-        const isDevelopment = import.meta.env.DEV;
-        const geocodeUrl = isDevelopment
-          ? "/api/vworld/address"
-          : "https://api.vworld.kr/req/address";
-
-        const { data: geocodeData } = await vworldAxios.get<VWorldGeocoderResponse>(
-          "/address",
-          {
+        const { data: geocodeData } =
+          await vworldAxios.get<VWorldGeocoderResponse>("/address", {
             params: {
               service: "address",
               request: "GetCoord",
@@ -52,8 +46,7 @@ export function useMultipleWeatherSearch(searchTerm: string | null) {
               type: "ROAD",
               key: apiKey,
             },
-          }
-        );
+          });
 
         if (
           geocodeData.response.status !== "OK" ||
@@ -73,7 +66,7 @@ export function useMultipleWeatherSearch(searchTerm: string | null) {
         // VWorld API 응답에서 실제 주소 가져오기
         let address = district;
         const result = geocodeData.response.result;
-        
+
         // 우선순위: result.text > structure 조합 > input.address.text > district
         if (result?.text) {
           address = result.text;
@@ -91,9 +84,8 @@ export function useMultipleWeatherSearch(searchTerm: string | null) {
         }
 
         // 2. 좌표로 날씨 조회
-        const { data: weatherData } = await baseAxios.get<CurrentWeatherResponse>(
-          "/data/2.5/weather",
-          {
+        const { data: weatherData } =
+          await baseAxios.get<CurrentWeatherResponse>("/data/2.5/weather", {
             params: {
               lat,
               lon,
@@ -101,8 +93,7 @@ export function useMultipleWeatherSearch(searchTerm: string | null) {
               lang: "kr",
               units: "metric",
             },
-          }
-        );
+          });
 
         return {
           district,
@@ -144,4 +135,3 @@ export function useMultipleWeatherSearch(searchTerm: string | null) {
     hasError,
   };
 }
-

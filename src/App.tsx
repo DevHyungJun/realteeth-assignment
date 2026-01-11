@@ -15,11 +15,9 @@ import {
 import { FavoriteList } from "./shared/domains/favorite";
 import WeatherDetailPage from "./pages/WeatherDetailPage/WeatherDetailPage";
 
-const SEARCH_QUERY_KEY = "q";
-
 function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const searchQuery = searchParams.get(SEARCH_QUERY_KEY);
+  const searchQuery = searchParams.get("q");
   const [searchAddress, setSearchAddress] = useState<string | null>(
     searchQuery
   );
@@ -57,15 +55,14 @@ function HomePage() {
     if (searchQuery !== searchAddress) {
       setSearchAddress(searchQuery);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
   const updateSearchParams = (address: string | null) => {
-    if (address) {
-      setSearchParams({ [SEARCH_QUERY_KEY]: address });
-    } else {
+    if (!address) {
       setSearchParams({});
+      return;
     }
+    setSearchParams({ q: address });
   };
 
   const handleSelectDistrict = (district: string) => {
@@ -145,7 +142,6 @@ function HomePage() {
 function App() {
   const location = useLocation();
 
-  // 라우팅 변경 시 스크롤을 맨 위로 이동
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
