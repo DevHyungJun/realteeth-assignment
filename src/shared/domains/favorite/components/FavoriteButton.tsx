@@ -1,4 +1,4 @@
-import StarIcon from "../../../ui/Icons/StarIcon";
+import { StarIcon } from "../../../ui/Icons";
 import {
   useFavoritesStore,
   generateFavoriteId,

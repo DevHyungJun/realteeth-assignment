@@ -2,9 +2,7 @@ import { useState, useRef, useEffect, type KeyboardEvent } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { filterDistricts } from "../../../utils";
-import BackIcon from "../../../ui/Icons/BackIcon";
-import SearchIcon from "../../../ui/Icons/SearchIcon";
-import ClearIcon from "../../../ui/Icons/ClearIcon";
+import { BackIcon, SearchIcon, ClearIcon } from "../../../ui/Icons";
 
 type WeatherSearchProps = {
   onSelectDistrict: (district: string) => void;
