@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ToastProvider, useToast } from "../../../context/ToastContext";
+import { ToastProvider, useToast } from "../../context/ToastContext";
 import Toast from "./Toast";
 
 // Toast 컴포넌트를 ToastProvider로 감싸는 래퍼
