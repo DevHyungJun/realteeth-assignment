@@ -25,6 +25,7 @@ OpenWeatherMap API와 VWorld API를 활용한 실시간 날씨 정보 조회 및
   - [VWorld API 프록시 설정](#6-vworld-api-프록시-설정)
   - [레이아웃 쉬프트 방지](#7-레이아웃-쉬프트-방지)
   - [Storybook 도입](#8-storybook-도입)
+  - [SEO 최적화](#9-seo-최적화)
 - [사용한 API](#사용한-api)
 - [주요 기능 상세](#주요-기능-상세)
 - [배포](#배포)
@@ -132,6 +133,10 @@ npm run storybook
 - **ESLint**: 코드 품질 관리
 - **Vitest**: 테스트 프레임워크
 
+### SEO
+
+- **react-helmet-async**: 동적 메타 태그 관리
+
 ## 기술적 의사결정 및 이유
 
 ### 1. OpenWeatherMap API와 VWorld API 통합
@@ -226,6 +231,33 @@ npm run storybook
 - 컴포넌트를 독립적으로 개발 및 테스트 가능
 - 컴포넌트 문서화로 팀 협업 효율성 향상
 - 다양한 props 조합을 쉽게 확인 가능
+
+### 9. SEO 최적화
+
+**구현 방식:**
+
+- `react-helmet-async`를 사용하여 각 페이지별 동적 메타 태그 관리
+- SEO 컴포넌트를 `shared/seo` 폴더에 모듈화하여 재사용성 향상
+
+**메인 페이지 SEO:**
+
+- 고정된 메타 태그: title, description, keywords
+- Open Graph 태그: 소셜 미디어 공유 최적화
+- Twitter Card 태그: Twitter 공유 최적화
+
+**상세 페이지 SEO:**
+
+- 동적 메타 태그 생성: 지역명, 온도, 날씨 설명을 포함한 제목 및 설명
+- 즐겨찾기 별칭 우선 사용: 사용자가 설정한 별칭을 제목에 반영
+- 날씨 아이콘 이미지: Open Graph 및 Twitter Card 이미지로 활용
+- 상세 날씨 정보: 온도, 습도, 풍속 등 구체적인 정보를 description에 포함
+
+**이유:**
+
+- 검색 엔진 최적화를 통한 검색 결과 노출 개선
+- 소셜 미디어 공유 시 적절한 미리보기 제공
+- 각 페이지별 고유한 메타 정보로 사용자 경험 향상
+- SEO 로직을 별도 모듈로 분리하여 유지보수성 향상
 
 ## 사용한 API
 
