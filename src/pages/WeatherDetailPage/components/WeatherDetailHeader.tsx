@@ -54,7 +54,7 @@ const WeatherDetailHeader = ({
         <div>
           {favoriteName ? (
             <>
-              <h1 className="text-lg sm:text-3xl font-bold text-gray-800 mb-1">
+              <h1 className="text-lg sm:text-3xl font-bold text-blue-700 mb-1">
                 {favoriteName}
               </h1>
               <p className="text-base sm:text-lg text-gray-500 mb-1">{name}</p>
