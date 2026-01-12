@@ -6,6 +6,12 @@ interface LocationPosition {
   longitude: number;
 }
 
+// 기본 위치: 서울시청
+const DEFAULT_POSITION: LocationPosition = {
+  latitude: 37.566046,
+  longitude: 126.977862,
+};
+
 const useGetLocation = () => {
   const { cachedPosition, setCachedPosition } = useCurrentLocationStore();
 
@@ -25,7 +31,11 @@ const useGetLocation = () => {
       }
 
       if (!navigator.geolocation) {
-        setLocationError("Geolocation이 지원되지 않는 브라우저입니다.");
+        // Geolocation이 지원되지 않는 경우 기본 위치 사용
+        const defaultPosition = DEFAULT_POSITION;
+        setPosition(defaultPosition);
+        setCachedPosition(defaultPosition);
+        setLocationError("Geolocation이 지원되지 않는 브라우저입니다. 기본 위치(서울시청)를 표시합니다.");
         setIsLocationLoading(false);
         return;
       }
@@ -44,10 +54,14 @@ const useGetLocation = () => {
           setIsLocationLoading(false);
         },
         (err) => {
+          // 위치 허용 거부 또는 오류 발생 시 기본 위치(서울시청) 사용
+          const defaultPosition = DEFAULT_POSITION;
+          setPosition(defaultPosition);
+          setCachedPosition(defaultPosition);
           setLocationError(
             err.message === "User denied Geolocation"
-              ? "위치 정보 접근이 거부되었습니다."
-              : "위치 정보를 가져오는 중 오류가 발생했습니다."
+              ? "위치 정보 접근이 거부되었습니다. 기본 위치(서울시청)를 표시합니다."
+              : "위치 정보를 가져오는 중 오류가 발생했습니다. 기본 위치(서울시청)를 표시합니다."
           );
           setIsLocationLoading(false);
         },

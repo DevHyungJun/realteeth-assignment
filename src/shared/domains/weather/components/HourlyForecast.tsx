@@ -1,5 +1,6 @@
 import type { Forecast5DayResponse } from "../../../types";
 import { getTemperature, getWeatherIconUrl } from "../../../utils";
+import { useDragScroll } from "../../../hooks/useDragScroll";
 
 type HourlyForecastProps = {
   forecastData: Forecast5DayResponse | undefined;
@@ -10,6 +11,8 @@ const HourlyForecast = ({
   forecastData,
   timezone,
 }: HourlyForecastProps) => {
+  const { scrollContainerRef, dragHandlers } = useDragScroll();
+
   if (!forecastData || !forecastData.list) {
     return null;
   }
@@ -61,7 +64,11 @@ const HourlyForecast = ({
       <h3 className="text-2xl font-semibold text-gray-800 mb-4">
         오늘 시간대별 일기예보
       </h3>
-      <div className="overflow-x-auto hide-scrollbar">
+      <div
+        ref={scrollContainerRef}
+        className="overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing"
+        {...dragHandlers}
+      >
         <div className="flex gap-4 min-w-max pb-2">
           {todayForecasts.map((forecast) => {
             const weatherIcon = forecast.weather[0]?.icon;

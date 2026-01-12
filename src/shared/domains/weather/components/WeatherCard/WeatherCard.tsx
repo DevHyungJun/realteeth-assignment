@@ -34,7 +34,8 @@ const WeatherInfoItem = ({
 };
 
 const COMPACT_WEATHER_INFO_ITEMS = WEATHER_INFO_ITEMS.filter(
-  (item) => item.label === "체감" || item.label === "습도" || item.label === "풍속"
+  (item) =>
+    item.label === "체감" || item.label === "습도" || item.label === "풍속"
 );
 
 type WeatherCardProps = {
@@ -76,16 +77,16 @@ const WeatherCard = ({
     propDisplayName !== undefined
       ? propDisplayName
       : favorite
-        ? favorite.name !== (favorite.district || name)
-          ? favorite.name
-          : baseAddress
-        : baseAddress;
+      ? favorite.name !== (favorite.district || name)
+        ? favorite.name
+        : baseAddress
+      : baseAddress;
   const computedDisplayDistrict =
     propDisplayDistrict !== undefined
       ? propDisplayDistrict
       : favorite && favorite.district && favorite.name !== favorite.district
-        ? favorite.district
-        : displayAddress;
+      ? favorite.district
+      : displayAddress;
 
   // 이름 편집 상태
   const [isEditing, setIsEditing] = useState(false);
@@ -125,14 +126,20 @@ const WeatherCard = ({
   };
 
   const handleNameClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
     if (!isEditing && editableName) {
+      e.stopPropagation();
       setIsEditing(true);
     }
+    // editableName이 false이면 stopPropagation을 호출하지 않아서
+    // 부모 요소의 onClick(handleClick)이 실행되어 상세 페이지로 이동
   };
 
   const handleNameBlur = () => {
-    if (editName.trim() && editName.trim() !== computedDisplayName && onNameChange) {
+    if (
+      editName.trim() &&
+      editName.trim() !== computedDisplayName &&
+      onNameChange
+    ) {
       onNameChange(editName.trim());
     } else {
       setEditName(computedDisplayName);
@@ -149,7 +156,16 @@ const WeatherCard = ({
     }
   };
 
-  const weatherInfoItems = variant === "compact" ? COMPACT_WEATHER_INFO_ITEMS : WEATHER_INFO_ITEMS;
+  const weatherInfoItems =
+    variant === "compact" ? COMPACT_WEATHER_INFO_ITEMS : WEATHER_INFO_ITEMS;
+
+  // 별칭이 등록되어 있는지 확인 (displayName과 displayDistrict가 다르고, displayDistrict가 실제 값이 있을 때만 별칭이 있는 것)
+  const hasCustomName =
+    propDisplayName !== undefined &&
+    propDisplayDistrict !== undefined &&
+    propDisplayDistrict !== null &&
+    propDisplayDistrict.trim() !== "" &&
+    propDisplayName !== propDisplayDistrict;
 
   return (
     <div
@@ -190,8 +206,11 @@ const WeatherCard = ({
               />
             ) : (
               <h2
-                className={`text-lg sm:text-xl font-bold ${
-                  editableName ? "hover:text-blue-600 transition-colors cursor-text" : ""
+                className={`text-lg sm:text-xl font-bold max-w-[220px] sm:max-w-none truncate ${
+                  hasCustomName && "text-blue-700"
+                } ${
+                  editableName &&
+                  "hover:text-blue-700 transition-colors cursor-text"
                 } inline-block pr-[28px]`}
                 onClick={handleNameClick}
               >
@@ -199,11 +218,12 @@ const WeatherCard = ({
               </h2>
             )}
           </div>
-          {computedDisplayDistrict && computedDisplayDistrict !== computedDisplayName && (
-            <p className="text-xs sm:text-sm text-gray-500 mt-1">
-              {computedDisplayDistrict}
-            </p>
-          )}
+          {computedDisplayDistrict &&
+            computedDisplayDistrict !== computedDisplayName && (
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                {computedDisplayDistrict}
+              </p>
+            )}
           {weatherDescription && weatherDescriptionPosition === "below" && (
             <p className="text-xs sm:text-sm text-gray-600 capitalize mt-1">
               {weatherDescription}
@@ -218,7 +238,11 @@ const WeatherCard = ({
         </p>
       )}
 
-      <div className={`flex items-center gap-2 flex-wrap ${variant === "compact" ? "text-sm mt-3" : ""}`}>
+      <div
+        className={`flex items-center gap-2 flex-wrap ${
+          variant === "compact" ? "text-sm mt-3" : ""
+        }`}
+      >
         {weatherInfoItems.map((item, index) => (
           <WeatherInfoItem
             key={item.label}

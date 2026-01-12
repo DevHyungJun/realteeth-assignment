@@ -7,6 +7,7 @@ const FavoriteList = () => {
   const { favorites, updateFavoriteName } = useFavoritesStore();
   const navigate = useNavigate();
 
+  // 즐겨찾기가 없으면 헤더도 표시하지 않음 (레이아웃 쉬프트 방지)
   if (favorites.length === 0) {
     return null;
   }
