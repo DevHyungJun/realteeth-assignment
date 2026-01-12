@@ -1,6 +1,7 @@
 import type { Forecast5DayResponse } from "../../../types";
 import { getTemperature, getWeatherIconUrl } from "../../../utils";
 import { useDragScroll } from "../../../hooks/useDragScroll";
+import { useKeyboardScroll } from "../../../hooks/useKeyboardScroll";
 
 type HourlyForecastProps = {
   forecastData: Forecast5DayResponse | undefined;
@@ -12,6 +13,7 @@ const HourlyForecast = ({
   timezone,
 }: HourlyForecastProps) => {
   const { scrollContainerRef, dragHandlers } = useDragScroll();
+  const { handleKeyDown } = useKeyboardScroll(scrollContainerRef);
 
   if (!forecastData || !forecastData.list) {
     return null;
@@ -68,6 +70,10 @@ const HourlyForecast = ({
         ref={scrollContainerRef}
         className="overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing"
         {...dragHandlers}
+        tabIndex={0}
+        role="region"
+        aria-label="오늘 시간대별 일기예보. 좌우 화살표 키로 스크롤할 수 있습니다."
+        onKeyDown={handleKeyDown}
       >
         <div className="flex gap-4 min-w-max pb-2">
           {todayForecasts.map((forecast) => {
