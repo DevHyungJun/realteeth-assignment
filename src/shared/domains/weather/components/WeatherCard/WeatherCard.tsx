@@ -202,7 +202,7 @@ const WeatherCard = ({
               />
             ) : (
               <h2
-                className={`text-lg sm:text-xl font-bold ${
+                className={`text-lg sm:text-xl font-bold max-w-[220px] sm:max-w-none truncate ${
                   hasCustomName && "text-blue-700"
                 } ${
                   editableName &&
