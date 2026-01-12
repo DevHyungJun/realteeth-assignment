@@ -1,5 +1,6 @@
 import type { Forecast5DayResponse } from "../../../types";
 import { getWeatherIconUrl, process5DayForecast } from "../../../utils";
+import { useDragScroll } from "../../../hooks/useDragScroll";
 
 type Weather5DaysProps = {
   forecastData: Forecast5DayResponse | undefined;
@@ -8,6 +9,9 @@ type Weather5DaysProps = {
 const Weather5Days = ({
   forecastData,
 }: Weather5DaysProps) => {
+  const mobileDragScroll = useDragScroll();
+  const desktopDragScroll = useDragScroll();
+  
   const dailyForecasts = process5DayForecast(forecastData);
 
   if (dailyForecasts.length === 0) return null;
@@ -25,7 +29,11 @@ const Weather5Days = ({
         5일간의 일기예보
       </h3>
       {/* 모바일: 가로 스크롤 */}
-      <div className="sm:hidden overflow-x-auto hide-scrollbar">
+      <div
+        ref={mobileDragScroll.scrollContainerRef}
+        className="sm:hidden overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing"
+        {...mobileDragScroll.dragHandlers}
+      >
         <div className="flex gap-4 min-w-max pb-2">
           {forecastsWithIconUrl.map(
             ({ date, dateLabel, weather, temperature, weatherIconUrl }) => {
@@ -61,14 +69,19 @@ const Weather5Days = ({
           )}
         </div>
       </div>
-      {/* 데스크톱: 그리드 레이아웃 */}
-      <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
+      {/* 데스크톱: 가로 스크롤 (드래그 가능) */}
+      <div
+        ref={desktopDragScroll.scrollContainerRef}
+        className="hidden sm:block overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing"
+        {...desktopDragScroll.dragHandlers}
+      >
+        <div className="flex gap-3 min-w-max pb-2">
         {forecastsWithIconUrl.map(
           ({ date, dateLabel, weather, temperature, weatherIconUrl }) => {
             return (
               <div
                 key={date}
-                className="bg-gray-50 rounded-lg p-4 flex flex-col items-center gap-2"
+                className="bg-gray-50 rounded-lg p-4 flex flex-col items-center gap-2 min-w-[100px]"
               >
                 <div className="text-sm font-medium text-gray-700 text-center">
                   {dateLabel}
@@ -95,6 +108,7 @@ const Weather5Days = ({
             );
           }
         )}
+        </div>
       </div>
     </div>
   );
