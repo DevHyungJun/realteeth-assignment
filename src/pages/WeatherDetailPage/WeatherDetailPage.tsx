@@ -4,6 +4,7 @@ import EmptyDetail from "./components/EmptyDetail";
 import MainView from "./components/MainView";
 import useBaseQuery from "../../shared/api/useBaseQuery";
 import type { Forecast5DayResponse } from "../../shared/types";
+import { WeatherDetailSEO } from "../../shared/seo";
 
 type WeatherDetailState = CurrentWeatherResponse & {
   district?: string;
@@ -31,6 +32,7 @@ const WeatherDetailPage = () => {
 
   return (
     <>
+      <WeatherDetailSEO data={data} district={district} favoriteName={favoriteName} />
       {data ? (
         <MainView
           data={data}
