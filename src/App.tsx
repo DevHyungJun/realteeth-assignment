@@ -75,7 +75,6 @@ function HomePage() {
     updateSearchParams(district);
   };
 
-  const showCurrentLocation = !searchAddress && data && !isLocationLoading;
   const showSearchResult = searchAddress;
 
   return (
@@ -98,13 +97,9 @@ function HomePage() {
           />
         )}
 
-        {!searchAddress &&
-          (isLocationLoading || (isWeatherLoading && !data)) && (
-            <WeatherCardSkeleton count={6} />
-          )}
-
-        {showCurrentLocation && (
+        {!searchAddress && (
           <>
+            {/* 현재 위치 섹션 - 항상 렌더링 */}
             <section className="mb-8 pb-8 border-b border-gray-200">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
                 <div className="flex items-center justify-between w-full sm:w-auto sm:justify-start gap-2">
@@ -148,8 +143,16 @@ function HomePage() {
                   </Button>
                 </div>
               </div>
-              <WeatherCard data={data} displayAddress={currentAddress} />
+              {/* 로딩 중이면 스켈레톤, 아니면 실제 카드 */}
+              {isLocationLoading || (isWeatherLoading && !data) ? (
+                <WeatherCardSkeleton count={1} />
+              ) : (
+                data && (
+                  <WeatherCard data={data} displayAddress={currentAddress} />
+                )
+              )}
             </section>
+            {/* 즐겨찾기 섹션 - 항상 렌더링 */}
             <FavoriteList />
           </>
         )}
