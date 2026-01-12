@@ -126,10 +126,12 @@ const WeatherCard = ({
   };
 
   const handleNameClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
     if (!isEditing && editableName) {
+      e.stopPropagation();
       setIsEditing(true);
     }
+    // editableName이 false이면 stopPropagation을 호출하지 않아서
+    // 부모 요소의 onClick(handleClick)이 실행되어 상세 페이지로 이동
   };
 
   const handleNameBlur = () => {
