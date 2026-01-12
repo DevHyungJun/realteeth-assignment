@@ -77,9 +77,7 @@ const WeatherSearchResult = ({
   if (isLoading) {
     return (
       <div className="mt-4 space-y-4">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <WeatherCardSkeleton key={index} />
-        ))}
+        <WeatherCardSkeleton count={6} />
       </div>
     );
   }

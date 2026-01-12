@@ -100,7 +100,7 @@ function HomePage() {
 
         {!searchAddress &&
           (isLocationLoading || (isWeatherLoading && !data)) && (
-            <WeatherCardSkeleton />
+            <WeatherCardSkeleton count={6} />
           )}
 
         {showCurrentLocation && (
