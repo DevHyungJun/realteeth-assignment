@@ -159,10 +159,12 @@ const WeatherCard = ({
   const weatherInfoItems =
     variant === "compact" ? COMPACT_WEATHER_INFO_ITEMS : WEATHER_INFO_ITEMS;
 
-  // 별칭이 등록되어 있는지 확인 (displayName과 displayDistrict가 다르면 별칭이 있는 것)
+  // 별칭이 등록되어 있는지 확인 (displayName과 displayDistrict가 다르고, displayDistrict가 실제 값이 있을 때만 별칭이 있는 것)
   const hasCustomName =
     propDisplayName !== undefined &&
     propDisplayDistrict !== undefined &&
+    propDisplayDistrict !== null &&
+    propDisplayDistrict.trim() !== "" &&
     propDisplayName !== propDisplayDistrict;
 
   return (
