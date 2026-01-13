@@ -44,7 +44,7 @@ const FavoriteButton = ({
         const displayName = district || data.name;
         showToast(`${displayName}이(가) 즐겨찾기에 추가되었습니다.`, "success");
       } else {
-        showToast("즐겨찾기는 최대 6개까지 추가할 수 있습니다.", "warning");
+        showToast("즐겨찾기는 최대 6개까지 추가할 수 있습니다.", "error");
       }
     }
 
