@@ -19,6 +19,7 @@ const MainGrid = ({ data }: MainGridProps) => {
               value={value}
               valueColor={item.valueColor}
               size={item.size}
+              tooltip={item.tooltip}
             />
           </div>
         );

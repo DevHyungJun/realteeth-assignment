@@ -20,6 +20,7 @@ const AdditionalInfoSection = ({ data }: AdditionalInfoSectionProps) => {
               value={value}
               valueColor={item.valueColor}
               size={item.size}
+              tooltip={item.tooltip}
             />
           );
         })}
