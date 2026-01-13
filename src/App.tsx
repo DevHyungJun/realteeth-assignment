@@ -44,7 +44,8 @@ function HomePage() {
     );
 
   // 좌표를 주소로 변환
-  const { data: currentAddress } = useReverseGeocode(lat, lon);
+  const { data: currentAddress, isLoading: isAddressLoading } =
+    useReverseGeocode(lat, lon);
   // 여러 지역에 대한 날씨 검색
   const {
     results,
@@ -152,7 +153,13 @@ function HomePage() {
                   <WeatherCardSkeleton count={1} />
                 ) : (
                   data && (
-                    <WeatherCard data={data} displayAddress={currentAddress} />
+                    <WeatherCard
+                      data={data}
+                      displayAddress={
+                        // 주소가 로딩 중이거나 없으면 null 전달 (WeatherCard에서 data.name을 fallback으로 사용)
+                        isAddressLoading ? null : currentAddress || null
+                      }
+                    />
                   )
                 )}
               </section>
