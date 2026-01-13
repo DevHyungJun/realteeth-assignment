@@ -3,6 +3,10 @@
     {
       "source": "/api/vworld/:path*",
       "destination": "https://api.vworld.kr/req/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
