@@ -1,19 +1,19 @@
 import { useNavigate } from "react-router-dom";
-import type { CurrentWeatherResponse } from "../../../types";
-import WeatherCardSkeleton from "./WeatherCardSkeleton";
-import WeatherCard from "./WeatherCard/WeatherCard";
-import type { WeatherSearchItem } from "../../../hooks/useMultipleWeatherSearch";
+import type { CurrentWeatherResponse } from "../../../../types";
+import WeatherCardSkeleton from "../WeatherCardSkeleton/WeatherCardSkeleton";
+import WeatherCard from "../WeatherCard/WeatherCard";
+import type { WeatherSearchItem } from "../../../../hooks/useMultipleWeatherSearch";
 import {
   useFavoritesStore,
   generateFavoriteId,
-} from "../../../config/favoritesStore";
+} from "../../../../config/favoritesStore";
 
-type WeatherSearchResultProps = {
+interface WeatherSearchResultProps {
   results: WeatherSearchItem[];
   isLoading: boolean;
   hasError: boolean;
   searchTerm: string;
-};
+}
 
 const WeatherSearchResultItem = ({
   data,
@@ -78,17 +78,10 @@ const WeatherSearchResult = ({
 
   return (
     <div className="mt-4 space-y-4">
-      {/* 헤더는 항상 렌더링 */}
       <h2 className="text-lg font-medium text-gray-500">
-        {isLoading
-          ? "검색 결과"
-          : `검색 결과 (${validResults.length}개)`}
+        {isLoading ? "검색 결과" : `검색 결과 (${validResults.length}개)`}
       </h2>
-
-      {/* 로딩 중이면 스켈레톤 표시 */}
       {isLoading && <WeatherCardSkeleton count={6} />}
-
-      {/* 에러 상태 */}
       {!isLoading && hasError && results.length === 0 && (
         <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
           <p className="text-red-600">
@@ -96,15 +89,12 @@ const WeatherSearchResult = ({
           </p>
         </div>
       )}
-
-      {/* 결과 없음 */}
       {!isLoading && !hasError && validResults.length === 0 && (
         <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
           <p className="text-gray-600">해당 장소의 정보가 제공되지 않습니다.</p>
         </div>
       )}
 
-      {/* 검색 결과 표시 */}
       {!isLoading &&
         validResults.length > 0 &&
         validResults.map((item) => (

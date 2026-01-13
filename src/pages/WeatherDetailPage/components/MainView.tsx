@@ -13,12 +13,12 @@ import {
   AdditionalInfoSection,
 } from "./sections";
 
-type MainViewProps = {
+interface MainViewProps {
   data: CurrentWeatherResponse;
   forecast5Days?: Forecast5DayResponse;
   district?: string;
   favoriteName?: string;
-};
+}
 
 const MainView = ({
   data,

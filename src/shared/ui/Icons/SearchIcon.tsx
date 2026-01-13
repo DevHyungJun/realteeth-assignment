@@ -1,6 +1,6 @@
-type SearchIconProps = {
+interface SearchIconProps {
   className?: string;
-};
+}
 
 const SearchIcon = ({ className = "w-5 h-5" }: SearchIconProps) => {
   return (

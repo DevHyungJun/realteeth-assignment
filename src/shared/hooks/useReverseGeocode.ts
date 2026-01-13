@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import vworldAxios from "../api/vworldAxios";
-import type { VWorldReverseGeocoderResponse } from "../types/vworldTypes";
+import type { VWorldReverseGeocoderResponse } from "../types";
 import { REVERSE_GEOCODE_CACHE_TIME } from "../config/cacheTimes";
 
 type ReverseGeocodeResult = string | null;

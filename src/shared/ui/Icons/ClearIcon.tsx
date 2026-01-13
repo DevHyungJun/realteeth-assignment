@@ -1,6 +1,6 @@
-type ClearIconProps = {
+interface ClearIconProps {
   className?: string;
-};
+}
 
 const ClearIcon = ({ className = "w-5 h-5" }: ClearIconProps) => {
   return (

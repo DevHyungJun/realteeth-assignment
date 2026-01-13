@@ -1,12 +1,12 @@
 import { Tooltip, InfoIcon } from "../../../../shared/ui";
 
-type InfoGridItemProps = {
+interface InfoGridItemProps {
   label: string;
   value: string | number;
   valueColor?: string;
   size?: "sm" | "md" | "lg" | "xl";
   tooltip?: string;
-};
+}
 
 const InfoGridItem = ({
   label,
@@ -22,7 +22,6 @@ const InfoGridItem = ({
     xl: "text-xl",
   };
 
-  // value에서 단위 추출 (예: "1013 hPa" -> "hPa")
   const unitMatch = String(value).match(/\s+(hPa)$/);
   const hasHpaUnit = unitMatch !== null;
   const valueWithoutUnit = hasHpaUnit
@@ -32,24 +31,21 @@ const InfoGridItem = ({
 
   return (
     <div>
-      <p className="text-xs text-gray-500 mb-1">{label}</p>
+      <p className="text-xs text-gray-500 mb-1">
+        {tooltip ? (
+          <Tooltip content={tooltip} position="top">
+            <span className="inline-flex items-center gap-1">
+              {label}
+              <InfoIcon className="h-3.5 w-3.5 text-gray-400 hover:text-gray-600 transition-colors cursor-help" />
+            </span>
+          </Tooltip>
+        ) : (
+          label
+        )}
+      </p>
       <p className={`${sizeClasses[size]} font-semibold ${valueColor}`}>
         {valueWithoutUnit === "KR" ? "한국" : valueWithoutUnit}
-        {unit && (
-          <>
-            {" "}
-            {tooltip ? (
-              <Tooltip content={tooltip} position="top">
-                <span className="inline-flex items-center gap-1">
-                  {unit}
-                  <InfoIcon className="h-3.5 w-3.5 text-gray-400 hover:text-gray-600 transition-colors cursor-help" />
-                </span>
-              </Tooltip>
-            ) : (
-              unit
-            )}
-          </>
-        )}
+        {unit && <> {unit}</>}
       </p>
     </div>
   );

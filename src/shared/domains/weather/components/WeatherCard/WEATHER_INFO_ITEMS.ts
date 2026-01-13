@@ -7,7 +7,7 @@ type WeatherInfoItemConfig = {
   getValue: (main: Main, wind: Wind) => string;
 };
 
-const WEATHER_INFO_ITEMS: WeatherInfoItemConfig[] = [
+export const WEATHER_INFO_ITEMS: WeatherInfoItemConfig[] = [
   {
     label: "최저",
     valueColor: "text-blue-600",
@@ -32,4 +32,11 @@ const WEATHER_INFO_ITEMS: WeatherInfoItemConfig[] = [
   },
 ];
 
-export default WEATHER_INFO_ITEMS;
+export const COMPACT_WEATHER_INFO_ITEMS = WEATHER_INFO_ITEMS.filter(
+  (item) =>
+    item.label === "최저" ||
+    item.label === "최고" ||
+    item.label === "체감" ||
+    item.label === "습도" ||
+    item.label === "풍속"
+);

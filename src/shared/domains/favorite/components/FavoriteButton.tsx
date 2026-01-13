@@ -8,11 +8,11 @@ import { useToast } from "../../../context/ToastContext";
 import type { CurrentWeatherResponse } from "../../../types";
 import type { MouseEvent } from "react";
 
-type FavoriteButtonProps = {
+interface FavoriteButtonProps {
   data: CurrentWeatherResponse;
   district?: string;
   className?: string;
-};
+}
 
 const CLICK_COOLDOWN_MS = 500; // 0.5초 쿨다운
 
@@ -29,7 +29,7 @@ const FavoriteButton = ({
 
   const handleClick = (e: MouseEvent) => {
     e.stopPropagation();
-    
+
     if (isProcessing) return;
 
     setIsProcessing(true);

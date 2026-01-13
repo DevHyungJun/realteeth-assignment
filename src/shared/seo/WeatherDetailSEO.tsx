@@ -2,11 +2,11 @@ import { Helmet } from "react-helmet-async";
 import type { CurrentWeatherResponse } from "../types";
 import { getTemperature } from "../utils";
 
-type WeatherDetailSEOProps = {
+interface WeatherDetailSEOProps {
   data: CurrentWeatherResponse | null;
   district?: string;
   favoriteName?: string;
-};
+}
 
 const WeatherDetailSEO = ({
   data,

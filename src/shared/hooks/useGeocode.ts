@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import vworldAxios from "../api/vworldAxios";
-import type { VWorldGeocoderResponse } from "../types/vworldTypes";
+import type { VWorldGeocoderResponse } from "../types";
 import { GEOCODE_CACHE_TIME } from "../config/cacheTimes";
 import { useToast } from "../context/ToastContext";
 

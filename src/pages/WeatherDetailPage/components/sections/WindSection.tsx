@@ -2,9 +2,9 @@ import type { CurrentWeatherResponse } from "../../../../shared/types";
 import { InfoSection, InfoGridItem } from "../ui";
 import { WIND_ITEMS } from "../../WEATHER_DETAIL_CONFIG";
 
-type WindSectionProps = {
+interface WindSectionProps {
   data: CurrentWeatherResponse;
-};
+}
 
 const WindSection = ({ data }: WindSectionProps) => {
   return (

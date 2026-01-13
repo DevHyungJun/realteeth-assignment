@@ -2,9 +2,9 @@ import type { CurrentWeatherResponse } from "../../../../shared/types";
 import { InfoSection, InfoGridItem } from "../ui";
 import { PRECIPITATION_ITEMS } from "../../WEATHER_DETAIL_CONFIG";
 
-type PrecipitationSectionProps = {
+interface PrecipitationSectionProps {
   data: CurrentWeatherResponse;
-};
+}
 
 const PrecipitationSection = ({ data }: PrecipitationSectionProps) => {
   if (!data.rain && !data.snow) {

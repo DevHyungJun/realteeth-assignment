@@ -1,55 +1,43 @@
-import type { Forecast5DayResponse } from "../../../types";
-import { getTemperature, getWeatherIconUrl } from "../../../utils";
-import { useDragScroll } from "../../../hooks/useDragScroll";
-import { useKeyboardScroll } from "../../../hooks/useKeyboardScroll";
+import type { Forecast5DayResponse } from "../../../../types";
+import { getTemperature, getWeatherIconUrl } from "../../../../utils";
+import { useDragScroll } from "../../../../hooks/useDragScroll";
+import { useKeyboardScroll } from "../../../../hooks/useKeyboardScroll";
 
-type HourlyForecastProps = {
+interface HourlyForecastProps {
   forecastData: Forecast5DayResponse | undefined;
   timezone: number;
-};
+}
 
 const HourlyForecast = ({ forecastData, timezone }: HourlyForecastProps) => {
   const { scrollContainerRef, dragHandlers } = useDragScroll();
   const { handleKeyDown } = useKeyboardScroll(scrollContainerRef);
 
-  if (!forecastData || !forecastData.list) {
-    return null;
-  }
+  if (!forecastData || !forecastData.list) return null;
 
-  // 현재 시간을 기준으로 오늘 날짜 계산 (즐겨찾기 데이터의 오래된 타임스탬프가 아닌 실제 현재 시간 사용)
   const nowTimestamp = Math.floor(Date.now() / 1000);
 
-  // 현재 시간에 타임존 오프셋을 적용하여 현지 시간 계산
   const nowLocal = new Date((nowTimestamp + timezone) * 1000);
 
-  // 오늘 날짜의 시작 시간 (자정) - 현지 시간 기준
   const todayStartLocal = new Date(
     nowLocal.getFullYear(),
     nowLocal.getMonth(),
     nowLocal.getDate()
   );
 
-  // 오늘 자정의 UTC 타임스탬프 (타임존 오프셋 제거)
   const todayStartTimestamp =
     Math.floor(todayStartLocal.getTime() / 1000) - timezone;
-  const todayEndTimestamp = todayStartTimestamp + 24 * 60 * 60; // 다음날 자정
+  const todayEndTimestamp = todayStartTimestamp + 24 * 60 * 60;
 
-  // 오늘 날짜의 예보만 필터링 (최대 24시간)
-  // 현재 시간 이후의 예보 중 오늘 날짜인 것만 필터링
   const todayForecasts = forecastData.list
     .filter((item) => {
-      // 현재 시간 이후의 예보만
       if (item.dt < nowTimestamp) {
         return false;
       }
-      // 오늘 날짜인지 확인 (타임존 고려하여 현지 시간 기준)
       return item.dt >= todayStartTimestamp && item.dt < todayEndTimestamp;
     })
-    .slice(0, 8); // 최대 8개 (24시간을 3시간 간격으로)
+    .slice(0, 8);
 
-  if (todayForecasts.length === 0) {
-    return null;
-  }
+  if (todayForecasts.length === 0) return null;
 
   const formatHour = (timestamp: number) => {
     const date = new Date((timestamp + timezone) * 1000);

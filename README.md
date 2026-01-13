@@ -359,52 +359,35 @@ src/
 │   │   ├── components/
 │   │   │   ├── sections/           # 상세 정보 섹션들
 │   │   │   └── ui/                 # 재사용 가능한 UI 컴포넌트
+│   │   ├── WEATHER_DETAIL_CONFIG.ts
 │   │   └── WeatherDetailPage.tsx
 │   └── NotFoundPage/               # 404 페이지
-│       └── NotFoundPage.tsx
 ├── shared/                         # 공유 모듈
 │   ├── api/                        # API 클라이언트
-│   │   ├── baseAxios.ts           # OpenWeatherMap API
-│   │   ├── vworldAxios.ts          # VWorld API (지오코딩)
-│   │   └── useBaseQuery.ts         # React Query 훅
 │   ├── config/                     # 설정 파일
-│   │   ├── cacheTimes.ts          # 캐시 시간 설정
-│   │   └── favoritesStore.ts       # Zustand 스토어
 │   ├── context/                    # React Context
-│   │   └── ToastContext.tsx        # Toast 알림 컨텍스트
 │   ├── domains/                    # 도메인별 컴포넌트
 │   │   ├── favorite/              # 즐겨찾기 도메인
-│   │   │   └── components/
-│   │   │       ├── FavoriteButton.tsx
-│   │   │       └── FavoriteList.tsx
 │   │   └── weather/                # 날씨 도메인
 │   │       └── components/
-│   │           ├── WeatherCard/
-│   │           ├── WeatherSearch.tsx
-│   │           ├── WeatherSearchResult.tsx
-│   │           ├── HourlyForecast.tsx
-│   │           └── Weather5Days.tsx
+│   │           ├── WeatherCard/    # 컴포넌트, 훅, 유틸로 분리
+│   │           ├── WeatherSearch/  # 컴포넌트, 훅으로 분리
+│   │           ├── WeatherCardSkeleton/
+│   │           ├── WeatherSearchResult/
+│   │           ├── DefaultWeatherSection/
+│   │           ├── HourlyForecast/
+│   │           └── Weather5Days/
 │   ├── hooks/                      # 커스텀 훅
-│   │   ├── useGeocode.ts          # 주소 → 좌표 변환
-│   │   ├── useReverseGeocode.ts   # 좌표 → 주소 변환
-│   │   ├── useGetLocation.ts       # 현재 위치 조회
-│   │   ├── useMultipleWeatherSearch.ts  # 다중 지역 검색
-│   │   ├── useDragScroll.ts        # 드래그 스크롤 훅
-│   │   └── useKeyboardScroll.ts    # 키보드 스크롤 훅
 │   ├── lib/                        # 정적 데이터
-│   │   └── korea_districts.json   # 한국 행정구역 데이터
+│   ├── seo/                        # SEO 컴포넌트
 │   ├── types/                      # TypeScript 타입 정의
 │   ├── ui/                         # 공통 UI 컴포넌트
 │   │   ├── Button/
 │   │   ├── Icons/
-│   │   │   └── InfoIcon.tsx        # 정보 아이콘
 │   │   ├── Toast/
-│   │   └── Tooltip/                # 툴팁 컴포넌트
+│   │   └── Tooltip/
 │   └── utils/                      # 유틸리티 함수
-│       ├── filterDistricts.ts     # 행정구역 필터링
-│       ├── formatDate.ts
-│       ├── formatTime.ts
-│       ├── getTemperature.ts
-│       └── getWeatherIconUrl.ts
-└── App.tsx                         # 메인 앱 컴포넌트
+├── App.tsx                         # 메인 앱 컴포넌트
+├── main.tsx                        # 앱 진입점
+└── index.css                       # 전역 스타일
 ```
