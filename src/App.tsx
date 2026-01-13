@@ -15,6 +15,7 @@ import {
 } from "./shared/domains/weather";
 import { FavoriteList } from "./shared/domains/favorite";
 import WeatherDetailPage from "./pages/WeatherDetailPage/WeatherDetailPage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -176,6 +177,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/weather-detail" element={<WeatherDetailPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
