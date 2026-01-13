@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import vworldAxios from "../api/vworldAxios";
 import type { VWorldReverseGeocoderResponse } from "../types/vworldTypes";
 import { REVERSE_GEOCODE_CACHE_TIME } from "../config/cacheTimes";
-import { useToast } from "../context/ToastContext";
 
 type ReverseGeocodeResult = string | null;
 
@@ -14,8 +13,6 @@ export function useReverseGeocode(
   lat: number | undefined,
   lon: number | undefined
 ) {
-  const { showToast } = useToast();
-
   const queryResult = useQuery<ReverseGeocodeResult>({
     queryKey: ["reverse-geocode", lat, lon],
     queryFn: async () => {
