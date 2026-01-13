@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useQueries } from "@tanstack/react-query";
 import type { CurrentWeatherResponse } from "../types";
-import { filterDistricts } from "../utils/filterDistricts";
+import { filterDistricts } from "../utils";
 import vworldAxios from "../api/vworldAxios";
 import baseAxios from "../api/baseAxios";
-import type { VWorldGeocoderResponse } from "../types/vworldTypes";
+import type { VWorldGeocoderResponse } from "../types";
 import { WEATHER_CACHE_TIME } from "../config/cacheTimes";
 import { useToast } from "../context/ToastContext";
 

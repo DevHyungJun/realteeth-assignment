@@ -6,11 +6,14 @@ import { useReverseGeocode } from "./shared/hooks/useReverseGeocode";
 import { useMultipleWeatherSearch } from "./shared/hooks/useMultipleWeatherSearch";
 import type { CurrentWeatherResponse } from "./shared/types";
 import { MainPageSEO } from "./shared/seo";
-import { WeatherSearch, WeatherSearchResult } from "./shared/domains/weather";
+import {
+  WeatherSearch,
+  WeatherSearchResult,
+  DefaultWeatherSection,
+} from "./shared/domains/weather";
 import { FavoriteList } from "./shared/domains/favorite";
 import WeatherDetailPage from "./pages/WeatherDetailPage/WeatherDetailPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
-import { DefaultWeatherSection } from "./shared/domains/weather/components";
 
 function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();

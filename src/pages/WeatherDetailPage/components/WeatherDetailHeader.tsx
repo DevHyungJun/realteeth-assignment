@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../shared/ui";
-import { getWeatherIconUrl } from "../../../shared/utils";
-import { getTemperature } from "../../../shared/utils";
-import { formatDate } from "../../../shared/utils";
+import {
+  getWeatherIconUrl,
+  getTemperature,
+  formatDate,
+} from "../../../shared/utils";
 import { FavoriteButton } from "../../../shared/domains/favorite";
 import type { CurrentWeatherResponse } from "../../../shared/types";
 
