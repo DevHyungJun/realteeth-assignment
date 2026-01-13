@@ -1,7 +1,7 @@
 import WeatherInfoItem from "./WeatherInfoItem";
 import type { Main, Wind } from "../../../../../types";
 
-type WeatherCardInfoProps = {
+interface WeatherCardInfoProps {
   items: Array<{
     label: string;
     valueColor?: string;
@@ -10,7 +10,7 @@ type WeatherCardInfoProps = {
   main: Main;
   wind: Wind;
   variant: "full" | "compact";
-};
+}
 
 const WeatherCardInfo = ({
   items,

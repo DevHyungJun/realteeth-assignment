@@ -8,7 +8,7 @@ import {
 import { FavoriteButton } from "../../../shared/domains/favorite";
 import type { CurrentWeatherResponse } from "../../../shared/types";
 
-type WeatherDetailHeaderProps = {
+interface WeatherDetailHeaderProps {
   name: string;
   weatherIcon?: string;
   weatherDescription: string;
@@ -18,7 +18,7 @@ type WeatherDetailHeaderProps = {
   data: CurrentWeatherResponse;
   district?: string;
   favoriteName?: string;
-};
+}
 
 const WeatherDetailHeader = ({
   name,

@@ -2,9 +2,9 @@ import type { CurrentWeatherResponse } from "../../../../shared/types";
 import { InfoGridItem } from "../ui";
 import { MAIN_GRID_ITEMS } from "../../WEATHER_DETAIL_CONFIG";
 
-type MainGridProps = {
+interface MainGridProps {
   data: CurrentWeatherResponse;
-};
+}
 
 const MainGrid = ({ data }: MainGridProps) => {
   return (

@@ -1,7 +1,7 @@
-type InfoSectionProps = {
+interface InfoSectionProps {
   title: string;
   children: React.ReactNode;
-};
+}
 
 const InfoSection = ({ title, children }: InfoSectionProps) => {
   return (
@@ -13,4 +13,3 @@ const InfoSection = ({ title, children }: InfoSectionProps) => {
 };
 
 export default InfoSection;
-

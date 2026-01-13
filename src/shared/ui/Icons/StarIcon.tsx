@@ -1,7 +1,7 @@
-type StarIconProps = {
+interface StarIconProps {
   className?: string;
   filled?: boolean;
-};
+}
 
 const StarIcon = ({ className = "w-5 h-5", filled = false }: StarIconProps) => {
   if (filled) {

@@ -1,10 +1,10 @@
 import { useState, type ReactNode } from "react";
 
-type TooltipProps = {
+interface TooltipProps {
   content: string;
   children: ReactNode;
   position?: "top" | "bottom" | "left" | "right";
-};
+}
 
 const TOOLTIP_STYLES = {
   top: "bottom-full left-1/2 -translate-x-1/2 mb-2",

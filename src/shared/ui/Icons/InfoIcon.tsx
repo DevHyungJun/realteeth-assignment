@@ -1,6 +1,6 @@
-type InfoIconProps = {
+interface InfoIconProps {
   className?: string;
-};
+}
 
 const InfoIcon = ({ className = "h-4 w-4" }: InfoIconProps) => {
   return (

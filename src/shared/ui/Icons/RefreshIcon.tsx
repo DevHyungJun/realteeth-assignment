@@ -1,6 +1,6 @@
-type RefreshIconProps = {
+interface RefreshIconProps {
   className?: string;
-};
+}
 
 const RefreshIcon = ({ className = "w-5 h-5" }: RefreshIconProps) => {
   return (

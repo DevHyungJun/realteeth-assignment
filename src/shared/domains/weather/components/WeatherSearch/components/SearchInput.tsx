@@ -6,7 +6,7 @@ type FormData = {
   searchTerm: string;
 };
 
-type SearchInputProps = {
+interface SearchInputProps {
   register: UseFormRegister<FormData>;
   searchTerm: string;
   hasQueryParam: boolean;
@@ -15,7 +15,7 @@ type SearchInputProps = {
   onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onClear: () => void;
   onSubmit: (e: React.FormEvent) => void;
-};
+}
 
 const SearchInput = ({
   register,

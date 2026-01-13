@@ -1,6 +1,6 @@
-type BackIconProps = {
+interface BackIconProps {
   className?: string;
-};
+}
 
 const BackIcon = ({ className = "w-6 h-6" }: BackIconProps) => {
   return (

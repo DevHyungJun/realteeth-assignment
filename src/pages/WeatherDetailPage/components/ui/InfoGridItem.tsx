@@ -1,12 +1,12 @@
 import { Tooltip, InfoIcon } from "../../../../shared/ui";
 
-type InfoGridItemProps = {
+interface InfoGridItemProps {
   label: string;
   value: string | number;
   valueColor?: string;
   size?: "sm" | "md" | "lg" | "xl";
   tooltip?: string;
-};
+}
 
 const InfoGridItem = ({
   label,
@@ -22,7 +22,6 @@ const InfoGridItem = ({
     xl: "text-xl",
   };
 
-  // value에서 단위 추출 (예: "1013 hPa" -> "hPa")
   const unitMatch = String(value).match(/\s+(hPa)$/);
   const hasHpaUnit = unitMatch !== null;
   const valueWithoutUnit = hasHpaUnit

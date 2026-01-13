@@ -1,6 +1,6 @@
-type LocationIconProps = {
+interface LocationIconProps {
   className?: string;
-};
+}
 
 const LocationIcon = ({ className = "h-5 w-5" }: LocationIconProps) => {
   return (

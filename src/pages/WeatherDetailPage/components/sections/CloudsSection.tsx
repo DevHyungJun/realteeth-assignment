@@ -1,8 +1,8 @@
 import { InfoSection } from "../ui";
 
-type CloudsSectionProps = {
+interface CloudsSectionProps {
   cloudsPercentage: number;
-};
+}
 
 const CloudsSection = ({ cloudsPercentage }: CloudsSectionProps) => {
   return (

@@ -7,7 +7,7 @@ type FormData = {
   favoriteName: string;
 };
 
-type WeatherCardHeaderProps = {
+interface WeatherCardHeaderProps {
   data: CurrentWeatherResponse;
   displayName: string;
   displayDistrict: string | null;
@@ -20,7 +20,7 @@ type WeatherCardHeaderProps = {
   onNameBlur: () => void;
   onNameKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
   onNameClick: (e: MouseEvent) => void;
-};
+}
 
 const WeatherCardHeader = ({
   data,

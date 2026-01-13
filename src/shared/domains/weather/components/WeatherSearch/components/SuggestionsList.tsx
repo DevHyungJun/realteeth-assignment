@@ -1,10 +1,10 @@
 import { useRef, useEffect } from "react";
 
-type SuggestionsListProps = {
+interface SuggestionsListProps {
   suggestions: string[];
   selectedIndex: number;
   onSelect: (district: string) => void;
-};
+}
 
 const SuggestionsList = ({
   suggestions,

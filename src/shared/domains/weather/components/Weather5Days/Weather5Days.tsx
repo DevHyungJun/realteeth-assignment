@@ -3,9 +3,9 @@ import { getWeatherIconUrl, process5DayForecast } from "../../../../utils";
 import { useDragScroll } from "../../../../hooks/useDragScroll";
 import { useKeyboardScroll } from "../../../../hooks/useKeyboardScroll";
 
-type Weather5DaysProps = {
+interface Weather5DaysProps {
   forecastData: Forecast5DayResponse | undefined;
-};
+}
 
 const Weather5Days = ({ forecastData }: Weather5DaysProps) => {
   const dragScroll = useDragScroll();

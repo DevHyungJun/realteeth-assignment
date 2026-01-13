@@ -6,10 +6,10 @@ import useBaseQuery from "../../shared/api/useBaseQuery";
 import type { Forecast5DayResponse } from "../../shared/types";
 import { WeatherDetailSEO } from "../../shared/seo";
 
-type WeatherDetailState = CurrentWeatherResponse & {
+interface WeatherDetailState extends CurrentWeatherResponse {
   district?: string;
   favoriteName?: string;
-};
+}
 
 const WeatherDetailPage = () => {
   const location = useLocation();
@@ -32,7 +32,11 @@ const WeatherDetailPage = () => {
 
   return (
     <>
-      <WeatherDetailSEO data={data} district={district} favoriteName={favoriteName} />
+      <WeatherDetailSEO
+        data={data}
+        district={district}
+        favoriteName={favoriteName}
+      />
       {data ? (
         <MainView
           data={data}

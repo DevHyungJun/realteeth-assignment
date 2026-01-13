@@ -3,10 +3,10 @@ import { getTemperature, getWeatherIconUrl } from "../../../../utils";
 import { useDragScroll } from "../../../../hooks/useDragScroll";
 import { useKeyboardScroll } from "../../../../hooks/useKeyboardScroll";
 
-type HourlyForecastProps = {
+interface HourlyForecastProps {
   forecastData: Forecast5DayResponse | undefined;
   timezone: number;
-};
+}
 
 const HourlyForecast = ({ forecastData, timezone }: HourlyForecastProps) => {
   const { scrollContainerRef, dragHandlers } = useDragScroll();
