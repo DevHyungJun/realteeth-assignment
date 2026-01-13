@@ -36,7 +36,11 @@ const WeatherInfoItem = ({
 
 const COMPACT_WEATHER_INFO_ITEMS = WEATHER_INFO_ITEMS.filter(
   (item) =>
-    item.label === "체감" || item.label === "습도" || item.label === "풍속"
+    item.label === "최저" ||
+    item.label === "최고" ||
+    item.label === "체감" ||
+    item.label === "습도" ||
+    item.label === "풍속"
 );
 
 type FormData = {
