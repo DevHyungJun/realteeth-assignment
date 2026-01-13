@@ -62,17 +62,13 @@ const DefaultWeatherSection = ({
           </Button>
         </div>
       </div>
-      {/* 로딩 중이면 스켈레톤, 아니면 실제 카드 */}
       {isLocationLoading || (isWeatherLoading && !data) ? (
         <WeatherCardSkeleton count={1} />
       ) : (
         data && (
           <WeatherCard
             data={data}
-            displayAddress={
-              // 주소가 로딩 중이거나 없으면 null 전달 (WeatherCard에서 data.name을 fallback으로 사용)
-              isAddressLoading ? null : currentAddress || null
-            }
+            displayAddress={isAddressLoading ? null : currentAddress || null}
           />
         )
       )}
