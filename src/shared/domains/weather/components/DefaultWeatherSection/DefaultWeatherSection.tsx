@@ -1,7 +1,7 @@
-import type { CurrentWeatherResponse } from "../../../types";
-import { Button, LocationIcon, RefreshIcon } from "../../../ui";
-import WeatherCard from "./WeatherCard/WeatherCard";
-import WeatherCardSkeleton from "./WeatherCardSkeleton";
+import type { CurrentWeatherResponse } from "../../../../types";
+import { Button, LocationIcon, RefreshIcon } from "../../../../ui";
+import WeatherCard from "../WeatherCard/WeatherCard";
+import WeatherCardSkeleton from "../WeatherCardSkeleton/WeatherCardSkeleton";
 
 interface DefaultWeatherSectionProps {
   locationError: string | null;

@@ -1,7 +1,7 @@
-import type { Forecast5DayResponse } from "../../../types";
-import { getWeatherIconUrl, process5DayForecast } from "../../../utils";
-import { useDragScroll } from "../../../hooks/useDragScroll";
-import { useKeyboardScroll } from "../../../hooks/useKeyboardScroll";
+import type { Forecast5DayResponse } from "../../../../types";
+import { getWeatherIconUrl, process5DayForecast } from "../../../../utils";
+import { useDragScroll } from "../../../../hooks/useDragScroll";
+import { useKeyboardScroll } from "../../../../hooks/useKeyboardScroll";
 
 type Weather5DaysProps = {
   forecastData: Forecast5DayResponse | undefined;

@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import type { CurrentWeatherResponse } from "../../../types";
-import WeatherCardSkeleton from "./WeatherCardSkeleton";
-import WeatherCard from "./WeatherCard/WeatherCard";
-import type { WeatherSearchItem } from "../../../hooks/useMultipleWeatherSearch";
+import type { CurrentWeatherResponse } from "../../../../types";
+import WeatherCardSkeleton from "../WeatherCardSkeleton/WeatherCardSkeleton";
+import WeatherCard from "../WeatherCard/WeatherCard";
+import type { WeatherSearchItem } from "../../../../hooks/useMultipleWeatherSearch";
 import {
   useFavoritesStore,
   generateFavoriteId,
-} from "../../../config/favoritesStore";
+} from "../../../../config/favoritesStore";
 
 type WeatherSearchResultProps = {
   results: WeatherSearchItem[];
@@ -80,9 +80,7 @@ const WeatherSearchResult = ({
     <div className="mt-4 space-y-4">
       {/* 헤더는 항상 렌더링 */}
       <h2 className="text-lg font-medium text-gray-500">
-        {isLoading
-          ? "검색 결과"
-          : `검색 결과 (${validResults.length}개)`}
+        {isLoading ? "검색 결과" : `검색 결과 (${validResults.length}개)`}
       </h2>
 
       {/* 로딩 중이면 스켈레톤 표시 */}
