@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import vworldAxios from "../api/vworldAxios";
 import type { VWorldReverseGeocoderResponse } from "../types/vworldTypes";
 import { REVERSE_GEOCODE_CACHE_TIME } from "../config/cacheTimes";
-import { useToast } from "../context/ToastContext";
 
 type ReverseGeocodeResult = string | null;
 
@@ -14,9 +13,7 @@ export function useReverseGeocode(
   lat: number | undefined,
   lon: number | undefined
 ) {
-  const { showToast } = useToast();
-
-  const queryResult = useQuery<ReverseGeocodeResult, Error>({
+  const queryResult = useQuery<ReverseGeocodeResult>({
     queryKey: ["reverse-geocode", lat, lon],
     queryFn: async () => {
       const apiKey = import.meta.env.VITE_VWORLD_API_KEY;
@@ -133,23 +130,27 @@ export function useReverseGeocode(
         return null;
       } catch (error) {
         console.error("Reverse geocoding error:", error);
-        throw new Error("좌표를 주소로 변환하는 중 오류가 발생했습니다.");
+        // 에러 발생 시 null 반환 (WeatherCard에서 data.name을 fallback으로 사용)
+        // 주소 변환 실패는 치명적이지 않으므로 에러를 throw하지 않음
+        return null;
       }
     },
     enabled: !!lat && !!lon,
-    retry: 1,
+    retry: 2,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 3000),
     refetchOnWindowFocus: false,
     staleTime: REVERSE_GEOCODE_CACHE_TIME,
   });
 
+  // 에러 발생 시 조용히 처리 (주소 변환 실패는 치명적이지 않음)
+  // API의 name 필드를 fallback으로 사용할 수 있으므로 에러 토스트 표시하지 않음
   useEffect(() => {
     if (queryResult.error) {
-      const errorMessage =
-        queryResult.error.message ||
-        "좌표를 주소로 변환하는 중 오류가 발생했습니다.";
-      showToast(errorMessage, "error");
+      console.warn("Reverse geocoding failed:", queryResult.error);
+      // 주소 변환 실패는 치명적이지 않으므로 조용히 처리
+      // WeatherCard에서 data.name을 fallback으로 사용
     }
-  }, [queryResult.error, showToast]);
+  }, [queryResult.error]);
 
   return queryResult;
 }

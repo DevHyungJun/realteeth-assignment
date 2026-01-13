@@ -8,10 +8,7 @@ type HourlyForecastProps = {
   timezone: number;
 };
 
-const HourlyForecast = ({
-  forecastData,
-  timezone,
-}: HourlyForecastProps) => {
+const HourlyForecast = ({ forecastData, timezone }: HourlyForecastProps) => {
   const { scrollContainerRef, dragHandlers } = useDragScroll();
   const { handleKeyDown } = useKeyboardScroll(scrollContainerRef);
 
@@ -21,19 +18,20 @@ const HourlyForecast = ({
 
   // 현재 시간을 기준으로 오늘 날짜 계산 (즐겨찾기 데이터의 오래된 타임스탬프가 아닌 실제 현재 시간 사용)
   const nowTimestamp = Math.floor(Date.now() / 1000);
-  
+
   // 현재 시간에 타임존 오프셋을 적용하여 현지 시간 계산
   const nowLocal = new Date((nowTimestamp + timezone) * 1000);
-  
+
   // 오늘 날짜의 시작 시간 (자정) - 현지 시간 기준
   const todayStartLocal = new Date(
     nowLocal.getFullYear(),
     nowLocal.getMonth(),
     nowLocal.getDate()
   );
-  
+
   // 오늘 자정의 UTC 타임스탬프 (타임존 오프셋 제거)
-  const todayStartTimestamp = Math.floor(todayStartLocal.getTime() / 1000) - timezone;
+  const todayStartTimestamp =
+    Math.floor(todayStartLocal.getTime() / 1000) - timezone;
   const todayEndTimestamp = todayStartTimestamp + 24 * 60 * 60; // 다음날 자정
 
   // 오늘 날짜의 예보만 필터링 (최대 24시간)
@@ -62,20 +60,20 @@ const HourlyForecast = ({
   };
 
   return (
-    <div className="mt-8 pt-6 border-t border-gray-200">
+    <div className="mt-8 pt-6 border-t border-gray-200 select-none">
       <h3 className="text-2xl font-semibold text-gray-800 mb-4">
         오늘 시간대별 일기예보
       </h3>
       <div
         ref={scrollContainerRef}
-        className="overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing"
+        className="overflow-x-auto hide-scrollbar"
         {...dragHandlers}
         tabIndex={0}
         role="region"
         aria-label="오늘 시간대별 일기예보. 좌우 화살표 키로 스크롤할 수 있습니다."
         onKeyDown={handleKeyDown}
       >
-        <div className="flex gap-4 min-w-max pb-2">
+        <div className="flex gap-4 min-w-max pb-2 select-none">
           {todayForecasts.map((forecast) => {
             const weatherIcon = forecast.weather[0]?.icon;
             const weatherDescription = forecast.weather[0]?.description || "";

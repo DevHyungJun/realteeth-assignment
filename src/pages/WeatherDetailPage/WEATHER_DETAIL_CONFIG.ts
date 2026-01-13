@@ -6,6 +6,7 @@ type WeatherDetailItemConfig = {
   getValue: (data: CurrentWeatherResponse) => string | null;
   valueColor?: string;
   size?: "sm" | "md" | "lg" | "xl";
+  tooltip?: string;
 };
 
 const MAIN_GRID_ITEMS: WeatherDetailItemConfig[] = [
@@ -35,6 +36,7 @@ const MAIN_GRID_ITEMS: WeatherDetailItemConfig[] = [
     label: "기압",
     getValue: (data) => `${data.main.pressure} hPa`,
     size: "xl",
+    tooltip: "hPa는 헥토파스칼(hectopascal)의 약자로 대기압력을 측정하는 단위입니다. 평균 해수면 기압은 약 1013 hPa이며, 기압이 높을수록 맑은 날씨를 나타냅니다.",
   },
   {
     label: "가시거리",

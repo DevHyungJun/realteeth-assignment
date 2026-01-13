@@ -1,5 +1,6 @@
 export { default as BackIcon } from "./BackIcon";
 export { default as ClearIcon } from "./ClearIcon";
+export { default as InfoIcon } from "./InfoIcon";
 export { default as LocationIcon } from "./LocationIcon";
 export { default as RefreshIcon } from "./RefreshIcon";
 export { default as SearchIcon } from "./SearchIcon";
