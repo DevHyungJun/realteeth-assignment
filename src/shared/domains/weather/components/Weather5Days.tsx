@@ -23,20 +23,20 @@ const Weather5Days = ({ forecastData }: Weather5DaysProps) => {
   }));
 
   return (
-    <div className="mt-8 pt-6 border-t border-gray-200">
+    <div className="mt-8 pt-6 border-t border-gray-200 select-none">
       <h3 className="text-2xl font-semibold text-gray-800 mb-4">
         5일간의 일기예보
       </h3>
       <div
         ref={dragScroll.scrollContainerRef}
-        className="overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing"
+        className="overflow-x-auto hide-scrollbar"
         {...dragScroll.dragHandlers}
         tabIndex={0}
         role="region"
         aria-label="5일간의 일기예보. 좌우 화살표 키로 스크롤할 수 있습니다."
         onKeyDown={keyboardScroll.handleKeyDown}
       >
-        <div className="flex gap-4 sm:gap-3 min-w-max pb-2">
+        <div className="flex gap-4 sm:gap-3 min-w-max pb-2 select-none">
           {forecastsWithIconUrl.map(
             ({ date, dateLabel, weather, temperature, weatherIconUrl }) => {
               return (
