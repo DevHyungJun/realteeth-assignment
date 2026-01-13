@@ -23,7 +23,7 @@ const FavoriteButton = ({
 }: FavoriteButtonProps) => {
   const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
   const { showToast } = useToast();
-  const favoriteId = generateFavoriteId(data);
+  const favoriteId = generateFavoriteId(data, district);
   const isFav = isFavorite(favoriteId);
   const [isProcessing, setIsProcessing] = useState(false);
 

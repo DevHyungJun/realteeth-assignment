@@ -77,7 +77,7 @@ const WeatherCard = ({
   const weatherDescription = weather[0]?.description || "";
 
   // 즐겨찾기에 등록되어 있는지 확인
-  const favoriteId = generateFavoriteId(data);
+  const favoriteId = generateFavoriteId(data, displayAddress || undefined);
   const favorite = getFavoriteById(favoriteId);
 
   // 표시할 이름과 주소 결정

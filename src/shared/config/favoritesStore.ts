@@ -19,9 +19,13 @@ interface FavoritesStore {
   getFavoriteById: (id: string) => FavoriteItem | undefined;
 }
 
-// 즐겨찾기 ID 생성 함수 (좌표 기반)
-export const generateFavoriteId = (data: CurrentWeatherResponse): string => {
-  return `${data.coord.lat.toFixed(4)}_${data.coord.lon.toFixed(4)}`;
+// 즐겨찾기 ID 생성 함수 (좌표 + 주소 기반)
+export const generateFavoriteId = (
+  data: CurrentWeatherResponse,
+  district?: string
+): string => {
+  const locationIdentifier = district || data.name;
+  return `${data.coord.lat.toFixed(4)}_${data.coord.lon.toFixed(4)}_${locationIdentifier}`;
 };
 
 export const useFavoritesStore = create<FavoritesStore>()(
@@ -34,7 +38,7 @@ export const useFavoritesStore = create<FavoritesStore>()(
         if (state.favorites.length >= 6) {
           return false;
         }
-        const id = generateFavoriteId(data);
+        const id = generateFavoriteId(data, district);
         // 이미 존재하는지 확인
         if (state.favorites.some((fav) => fav.id === id)) {
           return false;

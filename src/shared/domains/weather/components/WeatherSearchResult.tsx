@@ -32,7 +32,7 @@ const WeatherSearchResultItem = ({
     return null;
   }
 
-  const favoriteId = generateFavoriteId(data);
+  const favoriteId = generateFavoriteId(data, district);
   const favorite = getFavoriteById(favoriteId);
 
   const displayName = favorite
