@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import type { CurrentWeatherResponse } from "../../../../types";
 import WEATHER_INFO_ITEMS from "./WEATHER_INFO_ITEMS";
@@ -37,6 +38,10 @@ const COMPACT_WEATHER_INFO_ITEMS = WEATHER_INFO_ITEMS.filter(
   (item) =>
     item.label === "체감" || item.label === "습도" || item.label === "풍속"
 );
+
+type FormData = {
+  favoriteName: string;
+};
 
 type WeatherCardProps = {
   data: CurrentWeatherResponse;
@@ -90,14 +95,18 @@ const WeatherCard = ({
 
   // 이름 편집 상태
   const [isEditing, setIsEditing] = useState(false);
-  const [editName, setEditName] = useState(computedDisplayName);
+  const { register, setValue, getValues, reset } = useForm<FormData>({
+    defaultValues: {
+      favoriteName: computedDisplayName,
+    },
+  });
 
-  // computedDisplayName이 변경되면 editName도 업데이트
+  // computedDisplayName이 변경되면 form 값 업데이트
   useEffect(() => {
     if (!isEditing) {
-      setEditName(computedDisplayName);
+      setValue("favoriteName", computedDisplayName);
     }
-  }, [computedDisplayName, isEditing]);
+  }, [computedDisplayName, isEditing, setValue]);
 
   const handleRouteDetail = () => {
     if (propOnClick) {
@@ -135,14 +144,11 @@ const WeatherCard = ({
   };
 
   const handleNameBlur = () => {
-    if (
-      editName.trim() &&
-      editName.trim() !== computedDisplayName &&
-      onNameChange
-    ) {
-      onNameChange(editName.trim());
+    const trimmedValue = getValues("favoriteName").trim();
+    if (trimmedValue && trimmedValue !== computedDisplayName && onNameChange) {
+      onNameChange(trimmedValue);
     } else {
-      setEditName(computedDisplayName);
+      reset({ favoriteName: computedDisplayName });
     }
     setIsEditing(false);
   };
@@ -151,7 +157,7 @@ const WeatherCard = ({
     if (e.key === "Enter") {
       e.currentTarget.blur();
     } else if (e.key === "Escape") {
-      setEditName(computedDisplayName);
+      reset({ favoriteName: computedDisplayName });
       setIsEditing(false);
     }
   };
@@ -195,9 +201,9 @@ const WeatherCard = ({
           <div className="inline-block">
             {isEditing ? (
               <input
+                {...register("favoriteName", { maxLength: 25 })}
                 type="text"
-                value={editName}
-                onChange={(e) => setEditName(e.target.value)}
+                maxLength={25}
                 onBlur={handleNameBlur}
                 onKeyDown={handleNameKeyDown}
                 className="text-lg sm:text-xl font-bold border-b-2 border-blue-500 focus:outline-none w-full min-w-[100px] pr-[28px]"

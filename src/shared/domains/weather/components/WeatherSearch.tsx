@@ -120,8 +120,9 @@ const WeatherSearch = ({
         </button>
         <div className="relative flex-1">
           <input
-            {...register("searchTerm")}
+            {...register("searchTerm", { maxLength: 25 })}
             type="text"
+            maxLength={25}
             onFocus={() => setIsFocused(true)}
             onKeyDown={handleKeyDown}
             placeholder="지역명을 입력하세요 (도, 시, 구, 동..)"
