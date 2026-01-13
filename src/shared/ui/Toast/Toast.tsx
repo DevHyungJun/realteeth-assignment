@@ -1,25 +1,16 @@
 import { useToast } from "../../context/ToastContext";
 
+const TOST_STYLES = {
+  success: "bg-green-500 text-white",
+  error: "bg-red-500 text-white",
+  warning: "bg-yellow-500 text-white",
+  info: "bg-blue-500 text-white",
+};
+
 const Toast = () => {
   const { toasts, removeToast } = useToast();
 
-  if (toasts.length === 0) {
-    return null;
-  }
-
-  const getToastStyles = (type: string) => {
-    switch (type) {
-      case "success":
-        return "bg-green-500 text-white";
-      case "error":
-        return "bg-red-500 text-white";
-      case "warning":
-        return "bg-yellow-500 text-white";
-      case "info":
-      default:
-        return "bg-blue-500 text-white";
-    }
-  };
+  if (toasts.length === 0) return null;
 
   return (
     <div className="fixed top-4 right-4 z-50 flex flex-col gap-2">
@@ -27,7 +18,7 @@ const Toast = () => {
         <div
           key={toast.id}
           className={`
-            ${getToastStyles(toast.type)}
+            ${TOST_STYLES[toast.type as keyof typeof TOST_STYLES]}
             px-4 py-3 rounded-lg shadow-lg
             min-w-[300px] max-w-[500px]
             flex items-center justify-between
