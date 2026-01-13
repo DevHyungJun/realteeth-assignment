@@ -22,11 +22,10 @@ const InfoGridItem = ({
     <div>
       <p className="text-xs text-gray-500 mb-1">{label}</p>
       <p className={`${sizeClasses[size]} font-semibold ${valueColor}`}>
-        {value}
+        {value === "KR" ? "한국" : value}
       </p>
     </div>
   );
 };
 
 export default InfoGridItem;
-
