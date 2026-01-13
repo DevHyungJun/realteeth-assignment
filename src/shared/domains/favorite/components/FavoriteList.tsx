@@ -14,7 +14,7 @@ const FavoriteList = () => {
 
   return (
     <div className="mt-6">
-      <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2">
         <div className="flex items-center gap-2">
           <StarIcon filled className="h-5 w-5 text-yellow-500" />
           <h2 className="text-lg font-medium text-gray-500 text-nowrap">
@@ -26,6 +26,11 @@ const FavoriteList = () => {
           등록/수정할 수 있습니다.
         </span>
       </div>
+      <p
+        className={`text-base sm:text-lg mt-2 mb-4 font-semibold ${
+          favorites.length === 6 ? "text-red-500" : "text-green-500"
+        }`}
+      >{`${favorites.length}/6`}</p>
       <div className="space-y-4">
         {favorites.map((favorite) => (
           <WeatherCard
